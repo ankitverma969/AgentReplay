@@ -144,6 +144,7 @@ strict = true
 warn_unused_configs = true
 warn_return_any = true
 warn_unreachable = true
+mypy_path = "stubs"
 files = ["agentreplay", "tests"]
 
 [tool.pytest.ini_options]
