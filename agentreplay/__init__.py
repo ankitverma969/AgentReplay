@@ -13,6 +13,7 @@ from agentreplay.exceptions import (
     StorageError,
 )
 from agentreplay.recording import Recorder, record
+from agentreplay.replay import ReplayEngine
 from agentreplay.storage import (
     EventQuery,
     Pagination,
@@ -33,6 +34,7 @@ __all__ = [
     "Pagination",
     "RedactionError",
     "ReplayError",
+    "ReplayEngine",
     "Recorder",
     "RunQuery",
     "SerializationError",

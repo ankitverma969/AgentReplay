@@ -12,3 +12,5 @@ The project follows Semantic Versioning.
 - Added in-memory recorder engine.
 - Added SQLite storage engine with schema migrations, repositories, pagination,
   filtering, sorting, and event streaming.
+- Added read-only replay engine with timeline rendering, JSON/file/database
+  loading, playback controls, CLI support, and replay tests.

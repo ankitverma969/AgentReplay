@@ -122,6 +122,34 @@ with SQLiteStorage(".agentreplay/agentreplay.sqlite") as storage:
 The storage layer is abstracted behind `StorageBackend`, so future database
 backends can implement the same API.
 
+## Replay
+
+Replay reconstructs recorded runs without calling an LLM or executing tools:
+
+```python
+from agentreplay import ReplayEngine, SQLiteStorage
+
+storage = SQLiteStorage(".agentreplay/agentreplay.sqlite")
+engine = ReplayEngine(storage=storage)
+
+session = engine.load("run-id")
+print(session.timeline.render())
+
+engine.play()
+engine.pause()
+engine.seek(session.timeline.entries[0].event.event_id)
+engine.resume()
+engine.stop()
+```
+
+Use the CLI:
+
+```bash
+agentreplay replay RUN_ID --db-path .agentreplay/agentreplay.sqlite
+agentreplay replay --file exported-run.json --timeline
+agentreplay replay RUN_ID --speed 2 --step
+```
+
 ## Configuration
 
 AgentReplay reads configuration from these sources, in priority order:
