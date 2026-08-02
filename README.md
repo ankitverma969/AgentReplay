@@ -16,7 +16,7 @@ and exported.
 ## Phase 1 Status
 
 This repository currently contains the project foundation, recorder engine,
-SQLite storage engine, replay engine, and diff engine:
+SQLite storage engine, replay engine, diff engine, and first framework adapters:
 
 - Python package scaffold
 - CLI entrypoint
@@ -31,8 +31,10 @@ SQLite storage engine, replay engine, and diff engine:
 - SQLite storage engine
 - read-only replay engine
 - read-only diff engine
+- OpenAI Agents SDK adapter
+- LangGraph adapter
 
-Framework adapter behavior will be added in later phases.
+Additional framework adapter behavior will be added in later phases.
 
 ## Requirements
 
@@ -176,6 +178,14 @@ agentreplay diff RUN1 RUN2 --html
 agentreplay diff RUN1 RUN2 --summary
 ```
 
+Export stored runs as JSON, Markdown, or HTML:
+
+```bash
+agentreplay export RUN_ID --json
+agentreplay export RUN_ID --markdown
+agentreplay export RUN_ID --html --output run.html
+```
+
 ## OpenAI Agents SDK
 
 AgentReplay can observe OpenAI Agents SDK runs through optional adapter support:
@@ -194,6 +204,39 @@ pip install "agentreplay[openai-agents]"
 
 See `docs/openai_agents.md` and `examples/openai_agents` for configuration,
 quick-start examples, best practices, migration notes, and troubleshooting.
+
+## LangGraph
+
+AgentReplay can observe LangGraph compiled graphs and Runnable-compatible graph
+executions through optional adapter support:
+
+```python
+from agentreplay.langgraph import instrument
+
+graph = instrument(graph)
+result = graph.invoke({"question": "What happened?"})
+```
+
+Use an integration manager when you prefer attach-style setup:
+
+```python
+from agentreplay.langgraph import AgentReplay
+
+replay = AgentReplay()
+graph = replay.attach(graph)
+```
+
+The adapter appends an AgentReplay callback to Runnable config and records graph
+start/end, node lifecycle events, tools, LLM nodes, retries, errors, streaming
+chunks, checkpoints, interrupts, state updates, timing, and DAG metadata when
+available. It does not call LLMs or execute tools.
+
+```bash
+pip install "agentreplay[langgraph]"
+```
+
+See `docs/langgraph.md` and `examples/langgraph` for configuration, examples,
+performance notes, troubleshooting, and migration guidance.
 
 ## Configuration
 

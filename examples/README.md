@@ -1,7 +1,7 @@
 # AgentReplay Examples
 
-Examples will expand as implementation phases introduce storage, first-class
-framework adapters, replay, and diff behavior.
+Examples expand as implementation phases introduce storage, first-class
+framework adapters, replay, diff, and export behavior.
 
 Available examples:
 
@@ -10,3 +10,4 @@ Available examples:
 - `replay_recording.py`: records, stores, and replays a run timeline.
 - `diff_recordings.py`: records two runs and compares their captured data.
 - `openai_agents/`: example OpenAI Agents SDK integrations.
+- `langgraph/`: example LangGraph integrations.
