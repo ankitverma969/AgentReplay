@@ -34,6 +34,7 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - interactive time travel debugger
 - AI agent profiler
 - rich standalone HTML trace report generator
+- massive trace optimization and scalability engine
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
@@ -68,6 +69,10 @@ Use the CLI:
 ```bash
 agentreplay --help
 agentreplay version
+agentreplay benchmark --events 10000
+agentreplay optimize
+agentreplay analyze-db --json
+agentreplay vacuum
 ```
 
 ## In-Memory Recording

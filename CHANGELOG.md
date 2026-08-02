@@ -45,3 +45,7 @@ The project follows Semantic Versioning.
   assets, execution graph, timeline, trace tree, search/filter index, profiler
   results, security findings, optional diff report, JSON/Markdown/ZIP exports,
   plugin report extensions, CLI command, documentation, and tests.
+- Added massive trace optimization and scalability engine with chunked/windowed
+  loading, streaming JSON/JSONL exports, compression helpers, LRU cache, object
+  pooling, SQLite optimization, FTS-backed search with streaming fallback,
+  benchmark suite, performance reports, CLI commands, documentation, and tests.
