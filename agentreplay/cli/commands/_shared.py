@@ -1,4 +1,4 @@
-"""Shared helpers for placeholder Phase 1 CLI commands."""
+"""Shared helpers for AgentReplay CLI commands."""
 
 from __future__ import annotations
 

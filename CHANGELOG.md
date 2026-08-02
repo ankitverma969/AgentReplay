@@ -16,3 +16,6 @@ The project follows Semantic Versioning.
   loading, playback controls, CLI support, and replay tests.
 - Added read-only diff engine with structured changes, event alignment, console,
   JSON, Markdown, HTML, and summary reports.
+- Added OpenAI Agents SDK adapter with tracing instrumentation, agent hooks,
+  decorator/context/manual APIs, configuration, CLI latest helpers, docs, and
+  tests.
