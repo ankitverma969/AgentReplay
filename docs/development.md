@@ -35,8 +35,9 @@ configuration, and explicit Python API values override both.
 ## Maintainer Notes
 
 The current implementation includes the in-memory recorder engine, local SQLite
-storage, read-only replay engine, read-only diff engine, and the OpenAI Agents
-SDK adapter. Additional adapter implementations remain future work.
+storage, read-only replay engine, read-only diff engine, the OpenAI Agents SDK
+adapter, and the LangGraph adapter. Additional adapter implementations remain
+future work.
 Future phases should extend existing package boundaries instead of moving
 responsibilities across layers.
 
@@ -105,3 +106,16 @@ The diff layer includes:
 
 Diff reports include added, removed, and modified changes with old value, new
 value, location, category, severity, and related event ids when available.
+
+## LangGraph Adapter
+
+The LangGraph adapter lives behind `agentreplay.langgraph` and
+`agentreplay.adapters.langgraph`.
+
+The adapter should remain optional and must not make LangGraph a required core
+dependency. Tests should prefer fake Runnable-compatible graphs unless a test is
+explicitly marked as an optional import smoke test.
+
+The adapter records by appending an AgentReplay callback to LangGraph Runnable
+config. It must not modify LangGraph source code, call LLMs, execute tools
+directly, or change graph state outside normal graph execution.
