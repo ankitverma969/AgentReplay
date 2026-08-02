@@ -21,6 +21,7 @@ from agentreplay.exceptions import (
     ProfilerError,
     RedactionError,
     ReplayError,
+    ReportingError,
     SerializationError,
     StorageError,
 )
@@ -36,6 +37,7 @@ from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
 from agentreplay.profiler import ProfilerEngine, ProfilingReport
 from agentreplay.recording import Recorder, record
 from agentreplay.replay import ReplayEngine
+from agentreplay.reporting import ReportBundle, ReportingEngine, ReportOptions
 from agentreplay.security import (
     RedactionStrategy,
     SecurityConfig,
@@ -77,6 +79,10 @@ __all__ = [
     "ProfilerEngine",
     "ProfilerError",
     "ProfilingReport",
+    "ReportBundle",
+    "ReportOptions",
+    "ReportingEngine",
+    "ReportingError",
     "RedactionError",
     "RedactionStrategy",
     "ReplayError",

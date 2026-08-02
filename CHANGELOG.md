@@ -41,3 +41,7 @@ The project follows Semantic Versioning.
   analysis, bottleneck detection, optimization recommendations, visualization
   data, console/JSON/Markdown/HTML/CSV reports, plugin extension points, CLI
   command, documentation, and tests.
+- Added rich standalone HTML trace report generator with embedded offline
+  assets, execution graph, timeline, trace tree, search/filter index, profiler
+  results, security findings, optional diff report, JSON/Markdown/ZIP exports,
+  plugin report extensions, CLI command, documentation, and tests.

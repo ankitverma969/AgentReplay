@@ -26,6 +26,9 @@ PluginType = Literal[
     "custom_profiler",
     "custom_metric",
     "custom_recommendation",
+    "report_section",
+    "report_chart",
+    "report_widget",
     "auth_provider",
 ]
 PluginStatus = Literal["discovered", "loaded", "disabled", "failed", "unloaded"]
@@ -61,6 +64,9 @@ PLUGIN_TYPES: tuple[PluginType, ...] = (
     "custom_profiler",
     "custom_metric",
     "custom_recommendation",
+    "report_section",
+    "report_chart",
+    "report_widget",
     "auth_provider",
 )
 HOOK_NAMES: tuple[HookName, ...] = (

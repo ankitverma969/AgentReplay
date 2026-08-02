@@ -33,6 +33,7 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - read-only diff engine
 - interactive time travel debugger
 - AI agent profiler
+- rich standalone HTML trace report generator
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
@@ -200,6 +201,29 @@ storage = SQLiteStorage(".agentreplay/agentreplay.sqlite")
 report = ProfilerEngine(storage=storage).profile("run-id")
 
 print(report.summary())
+```
+
+## HTML Reports
+
+Generate a self-contained offline HTML report for debugging, auditing, and
+sharing recorded traces. Reports embed all CSS, JavaScript, report data,
+timeline views, graph views, profiler results, security findings, and optional
+diff data into one file.
+
+```bash
+agentreplay report RUN_ID --output report.html
+agentreplay report latest --dark --compress --output report.html
+agentreplay report RUN1 --compare RUN2 --light --output comparison.html
+```
+
+Python API:
+
+```python
+from agentreplay import ReportingEngine, ReportOptions
+from agentreplay.reporting.renderers import render_html
+
+bundle = ReportingEngine().generate("run-id", options=ReportOptions(theme="dark"))
+html = render_html(bundle)
 ```
 
 ## Diff
