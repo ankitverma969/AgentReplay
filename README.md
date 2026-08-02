@@ -33,6 +33,7 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - read-only diff engine
 - OpenAI Agents SDK adapter
 - LangGraph adapter
+- Plugin SDK
 
 Additional framework adapter behavior will be added in later phases.
 
@@ -238,6 +239,37 @@ pip install "agentreplay[langgraph]"
 See `docs/langgraph.md` and `examples/langgraph` for configuration, examples,
 performance notes, troubleshooting, and migration guidance.
 
+## Plugins
+
+AgentReplay includes a Plugin SDK for third-party integrations:
+
+```python
+from agentreplay.plugins import AgentReplayPlugin
+
+
+class CrewAIPlugin(AgentReplayPlugin):
+    name = "crewai"
+    version = "1.0.0"
+    plugin_type = "agent_framework"
+
+    def register(self, app):
+        app.register_agent_framework("crewai", object())
+```
+
+External packages expose plugins through the `agentreplay.plugins` entry-point
+group and become available after installation.
+
+```bash
+agentreplay plugins
+agentreplay plugins list
+agentreplay plugins info crewai
+agentreplay plugins install agentreplay-crewai
+agentreplay plugins disable crewai
+```
+
+See `docs/plugins.md` for the full API, lifecycle hooks, configuration,
+best practices, and migration guide.
+
 ## Configuration
 
 AgentReplay reads configuration from these sources, in priority order:
@@ -261,6 +293,10 @@ Supported environment variables:
 - `AGENTREPLAY_STORAGE_BACKEND`
 - `AGENTREPLAY_FAIL_MODE`
 - `AGENTREPLAY_CONFIG`
+- `AGENTREPLAY_PLUGINS_ENABLED`
+- `AGENTREPLAY_PLUGIN_AUTO_DISCOVER`
+- `AGENTREPLAY_DISABLED_PLUGINS`
+- `AGENTREPLAY_PLUGIN_CONFIG_<PLUGIN>__<KEY>`
 
 Example:
 
@@ -271,6 +307,11 @@ redaction_enabled = true
 log_level = "INFO"
 storage_backend = "sqlite"
 fail_mode = "fail_open"
+
+[plugins]
+enabled = true
+auto_discover = true
+disabled = []
 ```
 
 ## License

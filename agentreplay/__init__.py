@@ -14,11 +14,13 @@ from agentreplay.exceptions import (
     ConfigurationError,
     DiffError,
     InstrumentationError,
+    PluginError,
     RedactionError,
     ReplayError,
     SerializationError,
     StorageError,
 )
+from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
 from agentreplay.recording import Recorder, record
 from agentreplay.replay import ReplayEngine
 from agentreplay.storage import (
@@ -42,6 +44,9 @@ __all__ = [
     "InstrumentationError",
     "OpenAIAgentsConfig",
     "Pagination",
+    "PluginApp",
+    "PluginError",
+    "PluginManager",
     "RedactionError",
     "ReplayError",
     "ReplayEngine",
@@ -51,6 +56,7 @@ __all__ = [
     "SQLiteStorage",
     "StorageError",
     "StorageBackend",
+    "AgentReplayPlugin",
     "configure",
     "create_container",
     "get_settings",
