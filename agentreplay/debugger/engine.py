@@ -5,7 +5,6 @@ from __future__ import annotations
 from pathlib import Path
 
 from agentreplay.core.traces import TraceSnapshot
-from agentreplay.debugger.app import DebuggerApp
 from agentreplay.debugger.models import DebuggerTheme
 from agentreplay.debugger.session import DebuggerSession
 from agentreplay.exceptions import DebuggerError, ReplayError, StorageError
@@ -79,6 +78,16 @@ class DebuggerEngine:
         diff_run_id: str | None = None,
     ) -> None:
         """Launch the full-screen debugger UI."""
+        try:
+            from agentreplay.debugger.app import DebuggerApp
+        except ModuleNotFoundError as exc:
+            if exc.name != "textual":
+                raise
+            msg = (
+                "The interactive debugger requires the optional 'debugger' extra. "
+                "Install it with: python -m pip install 'agentreplay[debugger]'."
+            )
+            raise DebuggerError(msg) from exc
         DebuggerApp(
             session=session,
             theme=theme,

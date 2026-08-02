@@ -1,0 +1,39 @@
+- name: "type: bug"
+  color: "d73a4a"
+  description: Something is not working as intended.
+- name: "type: feature"
+  color: "a2eeef"
+  description: New or improved behavior.
+- name: "type: docs"
+  color: "0075ca"
+  description: Documentation improvements.
+- name: "type: security"
+  color: "b60205"
+  description: Security-related work.
+- name: "type: performance"
+  color: "fbca04"
+  description: Performance or scalability work.
+- name: "type: question"
+  color: "d876e3"
+  description: Support or usage question.
+- name: "type: idea"
+  color: "c5def5"
+  description: Community idea or proposal.
+- name: "status: needs triage"
+  color: "ededed"
+  description: Needs maintainer review.
+- name: "status: accepted"
+  color: "0e8a16"
+  description: Accepted for implementation.
+- name: "status: blocked"
+  color: "5319e7"
+  description: Waiting on external input.
+- name: "priority: critical"
+  color: "b60205"
+  description: Release-blocking issue.
+- name: "priority: high"
+  color: "d93f0b"
+  description: High priority.
+- name: "good first issue"
+  color: "7057ff"
+  description: Good for new contributors.

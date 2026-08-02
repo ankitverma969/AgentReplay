@@ -35,6 +35,7 @@ from agentreplay.types import JSONValue, Metadata
 
 _TRUE_VALUES = frozenset({"1", "true", "yes", "on"})
 _FALSE_VALUES = frozenset({"0", "false", "no", "off"})
+_SAMPLER = random.SystemRandom()
 _HIDDEN = "[hidden]"
 _REDACTED = "[redacted]"
 _SECRET_MARKERS = ("api_key", "apikey", "authorization", "bearer", "token", "secret")
@@ -1254,7 +1255,7 @@ def _is_branch_node(name: str) -> bool:
 
 def _is_sampled(config: LangGraphConfig) -> bool:
     """Return whether a run should be sampled."""
-    return config.sample_rate >= 1.0 or random.random() < config.sample_rate
+    return config.sample_rate >= 1.0 or _SAMPLER.random() < config.sample_rate
 
 
 def _clean_value(value: object, *, config: LangGraphConfig) -> object:

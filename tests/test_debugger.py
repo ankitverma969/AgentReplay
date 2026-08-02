@@ -163,6 +163,7 @@ def test_debugger_tui_keyboard_next_previous_and_help() -> None:
     asyncio.run(run_app())
 
 
+@pytest.mark.performance
 def test_debugger_large_search_and_stats_are_linear_enough() -> None:
     trace = _large_trace("run-large", count=100_000)
     session = _session(trace)

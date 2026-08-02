@@ -216,12 +216,12 @@ class RunRepository:
         params = list(where_params)
         sort_column = _RUN_SORT_COLUMNS[query.sort_by]
         direction = query.sort_direction.upper()
-        sql = f"""
-            SELECT run_id, name, status, started_at, ended_at, duration_ms
-            FROM runs
-            {where}
-            ORDER BY {sort_column} {direction}, run_id ASC
-        """
+        sql = (
+            "SELECT run_id, name, status, started_at, ended_at, duration_ms "
+            "FROM runs "
+            f"{where} "
+            f"ORDER BY {sort_column} {direction}, run_id ASC"  # nosec B608
+        )
         if query.pagination.limit is not None:
             sql = f"{sql} LIMIT ? OFFSET ?"
             params.extend((query.pagination.limit, query.pagination.offset))
@@ -551,20 +551,13 @@ def _event_select(
             params.extend((key, _json_dumps(value)))
     sort_column = _EVENT_SORT_COLUMNS[query.sort_by]
     direction = query.sort_direction.upper()
-    sql = f"""
-        SELECT
-            event_id,
-            run_id,
-            parent_event_id,
-            sequence,
-            event_type,
-            timestamp,
-            duration_ms,
-            payload_json
-        FROM events
-        WHERE {" AND ".join(clauses)}
-        ORDER BY {sort_column} {direction}, sequence ASC, event_id ASC
-    """
+    sql = (
+        "SELECT event_id, run_id, parent_event_id, sequence, event_type, "
+        "timestamp, duration_ms, payload_json "
+        "FROM events "
+        f"WHERE {' AND '.join(clauses)} "
+        f"ORDER BY {sort_column} {direction}, sequence ASC, event_id ASC"  # nosec B608
+    )
     if include_pagination and query.pagination.limit is not None:
         sql = f"{sql} LIMIT ? OFFSET ?"
         params.extend((query.pagination.limit, query.pagination.offset))

@@ -203,6 +203,7 @@ def test_replay_cli_loads_from_file_as_json(
     assert json.loads(captured.out)["entries"][0]["label"] == "Run Started"
 
 
+@pytest.mark.performance
 def test_replay_timeline_build_is_linear_enough_for_large_traces() -> None:
     run = _run("run-large")
     events = tuple(

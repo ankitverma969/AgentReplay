@@ -24,6 +24,19 @@ make check
 
 This runs formatting checks, linting, type checking, and tests.
 
+Release-impacting changes should also run the extended suite:
+
+```bash
+make test-performance
+make coverage
+make security
+make dead-code
+make docs
+make benchmark
+make build
+python -m twine check dist/*
+```
+
 ## Pull Request Guidelines
 
 - Use short-lived feature branches from `main`.
@@ -33,6 +46,11 @@ This runs formatting checks, linting, type checking, and tests.
 - Do not add telemetry.
 - Do not include real secrets in examples, fixtures, or traces.
 - Keep framework-specific code inside adapter boundaries.
+- Keep user-facing APIs backward compatible unless the change is explicitly
+  planned for a SemVer major release.
+- Prefer optional extras for integration dependencies.
+- Keep generated benchmark reports, coverage reports, and build artifacts out
+  of commits.
 
 ## Branch Naming
 
@@ -49,8 +67,16 @@ This runs formatting checks, linting, type checking, and tests.
 - MyPy strict mode
 - Absolute imports within the package
 - Docstrings for public modules, classes, and functions
+- No placeholder code, debug prints, or intentionally failing tests
+
+## Release Engineering
+
+Releases are cut from `main` after CI, docs, security, package validation, and
+benchmarks pass. Version numbers follow Semantic Versioning. Changelog entries
+should describe user-visible behavior, compatibility notes, and migration
+guidance when applicable.
 
 ## Security Reports
 
-Please do not open public issues for sensitive security reports. Use private
-maintainer contact channels once they are published for the project.
+Please do not open public issues for sensitive security reports. Follow
+`SECURITY.md` for private disclosure guidance.

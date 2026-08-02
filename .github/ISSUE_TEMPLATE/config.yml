@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/ankitverma969/AgentReplay/security/advisories/new
+    about: Please report security issues privately.
+  - name: Questions and ideas
+    url: https://github.com/ankitverma969/AgentReplay/discussions
+    about: Use discussions for support, ideas, and design conversations.
