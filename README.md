@@ -36,6 +36,7 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - rich standalone HTML trace report generator
 - massive trace optimization and scalability engine
 - AI regression detection and root-cause analysis engine
+- public SDK and extension platform
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
@@ -76,6 +77,33 @@ agentreplay analyze-db --json
 agentreplay vacuum
 agentreplay regression BASELINE_RUN TARGET_RUN --summary
 ```
+
+## Public SDK
+
+Build third-party extensions with the stable SDK surface:
+
+```python
+from agentreplay.sdk import AnalyzerResult, SDKExtensionMetadata, create_sdk
+
+
+class MyAnalyzer:
+    metadata = SDKExtensionMetadata(
+        name="my-analyzer",
+        version="0.1.0",
+        kind="analyzer",
+    )
+
+    def analyze(self, trace):
+        return AnalyzerResult(analyzer=self.metadata.name)
+
+
+sdk = create_sdk()
+sdk.register(MyAnalyzer())
+```
+
+See `docs/sdk.md` for analyzers, exporters, storage engines, reports,
+visualizations, framework adapters, CLI commands, event bus usage, hooks,
+versioning, and compatibility guidance.
 
 ## In-Memory Recording
 

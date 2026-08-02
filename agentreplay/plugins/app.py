@@ -250,6 +250,26 @@ class PluginApp:
         """Register a plugin-provided regression recommendation source."""
         self._register("regression_recommendation", name, recommendation)
 
+    def register_sdk_analyzer(self, name: str, analyzer: object) -> None:
+        """Register a public SDK analyzer extension."""
+        self._register("sdk_analyzer", name, analyzer)
+
+    def register_sdk_exporter(self, name: str, exporter: object) -> None:
+        """Register a public SDK exporter extension."""
+        self._register("sdk_exporter", name, exporter)
+
+    def register_sdk_storage(self, name: str, storage: object) -> None:
+        """Register a public SDK storage extension."""
+        self._register("sdk_storage", name, storage)
+
+    def register_sdk_visualization(self, name: str, visualization: object) -> None:
+        """Register a public SDK visualization extension."""
+        self._register("sdk_visualization", name, visualization)
+
+    def register_sdk_report(self, name: str, report: object) -> None:
+        """Register a public SDK report extension."""
+        self._register("sdk_report", name, report)
+
     def register_auth_provider(self, name: str, provider: object) -> None:
         """Register a future authentication provider."""
         self._register("auth_provider", name, provider)

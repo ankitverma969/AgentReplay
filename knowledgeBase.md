@@ -81,6 +81,10 @@ Important packages:
 - `agentreplay.regression`: deterministic AI regression detection, root-cause
   analysis, impact estimates, trend analysis, recommendations, visual comparison
   data, plugin extension points, and `agentreplay regression` reports.
+- `agentreplay.sdk`: stable public extension platform for analyzers, exporters,
+  storage engines, visualizations, framework adapters, custom reports, CLI
+  commands, event bus subscriptions, hooks, compatibility checks, and
+  deprecation helpers.
 - `agentreplay.cli`: command-line interface and command handlers.
 - `agentreplay.core`: shared event, run, trace, clock, ID, and metadata models.
 - `agentreplay.testing`: helper utilities for tests and examples.

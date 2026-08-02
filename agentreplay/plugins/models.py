@@ -32,6 +32,11 @@ PluginType = Literal[
     "regression_rule",
     "regression_analyzer",
     "regression_recommendation",
+    "sdk_analyzer",
+    "sdk_exporter",
+    "sdk_storage",
+    "sdk_visualization",
+    "sdk_report",
     "auth_provider",
 ]
 PluginStatus = Literal["discovered", "loaded", "disabled", "failed", "unloaded"]
@@ -73,6 +78,11 @@ PLUGIN_TYPES: tuple[PluginType, ...] = (
     "regression_rule",
     "regression_analyzer",
     "regression_recommendation",
+    "sdk_analyzer",
+    "sdk_exporter",
+    "sdk_storage",
+    "sdk_visualization",
+    "sdk_report",
     "auth_provider",
 )
 HOOK_NAMES: tuple[HookName, ...] = (

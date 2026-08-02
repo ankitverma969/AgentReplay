@@ -52,3 +52,7 @@ The project follows Semantic Versioning.
 - Added AI regression detection and root-cause analysis engine with deterministic
   regression, improvement, behavioral-change, trend, impact, recommendation,
   graph, CLI, plugin extension, documentation, and test coverage.
+- Added public SDK and extension platform with stable extension protocols,
+  typed event bus, hook manager, compatibility checks, deprecation helpers,
+  extension registry, plugin bridge, dynamic CLI command registration, examples,
+  documentation, and tests.
