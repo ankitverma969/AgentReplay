@@ -35,8 +35,8 @@ configuration, and explicit Python API values override both.
 ## Maintainer Notes
 
 The current implementation includes the in-memory recorder engine, local SQLite
-storage, and read-only replay engine. Diff and adapter implementations remain
-future work.
+storage, read-only replay engine, and read-only diff engine. Adapter
+implementations remain future work.
 Future phases should extend existing package boundaries instead of moving
 responsibilities across layers.
 
@@ -89,3 +89,19 @@ The replay layer includes:
 - `EventTimeline` for nested and concurrent event visualization
 
 Playback speed is limited to `0.25x`, `0.5x`, `1x`, `2x`, and `4x`.
+
+## Diff Engine
+
+Diff is read-only. It must never execute agents, call an LLM, execute tools, or
+mutate stored runs.
+
+The diff layer includes:
+
+- `DiffEngine` for comparing two `TraceSnapshot` objects or storage-backed run
+  ids
+- `EventMatcher` for aligning thousands of recorded events efficiently
+- immutable `DiffResult`, `DiffChange`, and `DiffStats` models
+- report renderers for console, JSON, Markdown, HTML, and summary output
+
+Diff reports include added, removed, and modified changes with old value, new
+value, location, category, severity, and related event ids when available.
