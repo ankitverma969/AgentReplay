@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TypedDict
+
 try:
     from langgraph.graph import END, START, StateGraph
 except ImportError as exc:  # pragma: no cover
@@ -11,12 +13,19 @@ except ImportError as exc:  # pragma: no cover
 from agentreplay.langgraph import instrument
 
 
-def answer(state: dict[str, str]) -> dict[str, str]:
+class BasicState(TypedDict, total=False):
+    """State carried through the basic example graph."""
+
+    question: str
+    answer: str
+
+
+def answer(state: BasicState) -> BasicState:
     """Return a deterministic response for the example graph."""
     return {"answer": f"AgentReplay saw: {state['question']}"}
 
 
-builder = StateGraph(dict[str, str])
+builder = StateGraph(BasicState)
 builder.add_node("answer", answer)
 builder.add_edge(START, "answer")
 builder.add_edge("answer", END)

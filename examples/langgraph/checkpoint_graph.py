@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TypedDict
+
 try:
     from langgraph.checkpoint.memory import InMemorySaver
     from langgraph.graph import END, START, StateGraph
@@ -12,12 +14,19 @@ except ImportError as exc:  # pragma: no cover
 from agentreplay.langgraph import instrument
 
 
-def answer(state: dict[str, str]) -> dict[str, str]:
+class CheckpointState(TypedDict, total=False):
+    """State carried through the checkpoint example graph."""
+
+    question: str
+    answer: str
+
+
+def answer(state: CheckpointState) -> CheckpointState:
     """Return a checkpointed response."""
     return {"answer": state["question"]}
 
 
-builder = StateGraph(dict[str, str])
+builder = StateGraph(CheckpointState)
 builder.add_node("answer", answer)
 builder.add_edge(START, "answer")
 builder.add_edge("answer", END)
