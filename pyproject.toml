@@ -33,9 +33,9 @@ dev = [
   "ruff>=0.5",
   "twine>=5.1",
 ]
-openai-agents = []
+openai-agents = ["openai-agents"]
 langgraph = []
-all = []
+all = ["openai-agents"]
 
 [project.scripts]
 agentreplay = "agentreplay.cli.main:main"

@@ -3,6 +3,12 @@
 from collections.abc import Mapping
 from pathlib import Path
 
+from agentreplay.adapters.openai_agents import (
+    AgentReplay,
+    OpenAIAgentsConfig,
+    instrument,
+    record_agent,
+)
 from agentreplay.config import Settings, configure, get_settings, reset_settings
 from agentreplay.container import Container, create_container
 from agentreplay.diff import DiffEngine
@@ -37,9 +43,11 @@ def load_config(
 
 
 __all__ = [
+    "AgentReplay",
     "Container",
     "DiffEngine",
     "EventQuery",
+    "OpenAIAgentsConfig",
     "Pagination",
     "Recorder",
     "ReplayEngine",
@@ -50,7 +58,9 @@ __all__ = [
     "configure",
     "create_container",
     "get_settings",
+    "instrument",
     "load_config",
     "record",
+    "record_agent",
     "reset_settings",
 ]

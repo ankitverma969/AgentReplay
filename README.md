@@ -176,6 +176,25 @@ agentreplay diff RUN1 RUN2 --html
 agentreplay diff RUN1 RUN2 --summary
 ```
 
+## OpenAI Agents SDK
+
+AgentReplay can observe OpenAI Agents SDK runs through optional adapter support:
+
+```python
+import agentreplay
+
+agentreplay.instrument()
+```
+
+The integration uses SDK extension points and keeps `openai-agents` optional:
+
+```bash
+pip install "agentreplay[openai-agents]"
+```
+
+See `docs/openai_agents.md` and `examples/openai_agents` for configuration,
+quick-start examples, best practices, migration notes, and troubleshooting.
+
 ## Configuration
 
 AgentReplay reads configuration from these sources, in priority order:
