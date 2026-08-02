@@ -83,6 +83,27 @@ class ReportExtension(Protocol):
         """Render extension output for a report-like object."""
 
 
+class RegressionRule(Protocol):
+    """Protocol implemented by plugin-provided regression rules."""
+
+    def analyze(self, baseline: object, target: object) -> object:
+        """Return regression findings from two trace-like objects."""
+
+
+class RegressionAnalyzer(Protocol):
+    """Protocol implemented by plugin-provided regression analyzers."""
+
+    def analyze(self, report: object) -> object:
+        """Return analyzer-specific regression output."""
+
+
+class RegressionRecommendation(Protocol):
+    """Protocol implemented by plugin-provided regression recommenders."""
+
+    def recommend(self, report: object) -> object:
+        """Return additional recommendations for a regression report."""
+
+
 @dataclass(slots=True)
 class PluginApp:
     """Mutable registration facade passed to plugin ``register()`` methods."""
@@ -209,6 +230,26 @@ class PluginApp:
         """Register a plugin-provided trace report widget."""
         self._register("report_widget", name, widget)
 
+    def register_regression_rule(self, name: str, rule: RegressionRule) -> None:
+        """Register a plugin-provided regression detection rule."""
+        self._register("regression_rule", name, rule)
+
+    def register_regression_analyzer(
+        self,
+        name: str,
+        analyzer: RegressionAnalyzer,
+    ) -> None:
+        """Register a plugin-provided regression analyzer."""
+        self._register("regression_analyzer", name, analyzer)
+
+    def register_regression_recommendation(
+        self,
+        name: str,
+        recommendation: RegressionRecommendation,
+    ) -> None:
+        """Register a plugin-provided regression recommendation source."""
+        self._register("regression_recommendation", name, recommendation)
+
     def register_auth_provider(self, name: str, provider: object) -> None:
         """Register a future authentication provider."""
         self._register("auth_provider", name, provider)
@@ -326,6 +367,9 @@ __all__ = [
     "PluginApp",
     "PluginHookHandler",
     "ReportExtension",
+    "RegressionAnalyzer",
+    "RegressionRecommendation",
+    "RegressionRule",
     "SecurityDetector",
     "TelemetryAttributeEnricher",
 ]

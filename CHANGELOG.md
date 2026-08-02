@@ -49,3 +49,6 @@ The project follows Semantic Versioning.
   loading, streaming JSON/JSONL exports, compression helpers, LRU cache, object
   pooling, SQLite optimization, FTS-backed search with streaming fallback,
   benchmark suite, performance reports, CLI commands, documentation, and tests.
+- Added AI regression detection and root-cause analysis engine with deterministic
+  regression, improvement, behavioral-change, trend, impact, recommendation,
+  graph, CLI, plugin extension, documentation, and test coverage.

@@ -14,6 +14,7 @@ from agentreplay.cli.commands import (
     plugins,
     profile,
     record,
+    regression,
     replay,
     report,
     runs,
@@ -46,6 +47,7 @@ def build_parser() -> argparse.ArgumentParser:
     version.register(subparsers)
     runs.register(subparsers)
     record.register(subparsers)
+    regression.register(subparsers)
     replay.register(subparsers)
     debug.register(subparsers)
     diff.register(subparsers)
