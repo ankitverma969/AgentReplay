@@ -17,6 +17,7 @@ from agentreplay.exceptions import (
     DiffError,
     InstrumentationError,
     ObservabilityError,
+    PerformanceError,
     PluginError,
     ProfilerError,
     RedactionError,
@@ -32,6 +33,17 @@ from agentreplay.observability import (
     TelemetryExportResult,
     TelemetryMetrics,
     TelemetryTrace,
+)
+from agentreplay.performance import (
+    BenchmarkCase,
+    BenchmarkResult,
+    BenchmarkSuite,
+    SearchQuery,
+    SearchResults,
+    SQLiteOptimizer,
+    StreamingTraceExporter,
+    TraceSearchEngine,
+    TraceWindowReader,
 )
 from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
 from agentreplay.profiler import ProfilerEngine, ProfilingReport
@@ -73,6 +85,7 @@ __all__ = [
     "ObservabilityError",
     "OpenAIAgentsConfig",
     "Pagination",
+    "PerformanceError",
     "PluginApp",
     "PluginError",
     "PluginManager",
@@ -101,6 +114,9 @@ __all__ = [
     "TelemetryExportResult",
     "TelemetryMetrics",
     "TelemetryTrace",
+    "BenchmarkCase",
+    "BenchmarkResult",
+    "BenchmarkSuite",
     "AgentReplayPlugin",
     "CorrelationContext",
     "configure",
@@ -110,4 +126,10 @@ __all__ = [
     "record",
     "record_agent",
     "reset_settings",
+    "SQLiteOptimizer",
+    "SearchQuery",
+    "SearchResults",
+    "StreamingTraceExporter",
+    "TraceSearchEngine",
+    "TraceWindowReader",
 ]

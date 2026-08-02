@@ -75,6 +75,9 @@ Important packages:
 - `agentreplay.reporting`: standalone offline HTML trace report bundles,
   execution graph and timeline data, search/filter indexes, profiler/security/
   diff integration, report renderers, and plugin report extensions.
+- `agentreplay.performance`: chunked and windowed trace loading, partial replay,
+  streaming exports, compression helpers, memory cache, object pooling, SQLite
+  optimization, high-performance search, parallel helpers, and benchmark reports.
 - `agentreplay.cli`: command-line interface and command handlers.
 - `agentreplay.core`: shared event, run, trace, clock, ID, and metadata models.
 - `agentreplay.testing`: helper utilities for tests and examples.

@@ -57,6 +57,10 @@ class ReportingError(AgentReplayError):
     """Raised when trace report generation cannot be completed."""
 
 
+class PerformanceError(AgentReplayError):
+    """Raised when trace scalability or optimization work fails."""
+
+
 __all__ = [
     "AdapterError",
     "AgentReplayError",
@@ -65,6 +69,7 @@ __all__ = [
     "DiffError",
     "InstrumentationError",
     "ObservabilityError",
+    "PerformanceError",
     "PluginError",
     "ProfilerError",
     "ReportingError",
