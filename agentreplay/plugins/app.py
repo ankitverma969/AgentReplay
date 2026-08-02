@@ -55,6 +55,27 @@ class TelemetryAttributeEnricher(Protocol):
         """Return extra telemetry attributes."""
 
 
+class CustomProfiler(Protocol):
+    """Protocol implemented by plugin-provided profiler extensions."""
+
+    def profile(self, trace: object) -> object:
+        """Return plugin-specific profile output for a trace-like object."""
+
+
+class CustomMetric(Protocol):
+    """Protocol implemented by plugin-provided profiler metrics."""
+
+    def measure(self, trace: object) -> object:
+        """Return plugin-specific metric output for a trace-like object."""
+
+
+class CustomRecommendation(Protocol):
+    """Protocol implemented by plugin-provided profiler recommendations."""
+
+    def recommend(self, profile: object) -> object:
+        """Return plugin-specific recommendations for a profile-like object."""
+
+
 @dataclass(slots=True)
 class PluginApp:
     """Mutable registration facade passed to plugin ``register()`` methods."""
@@ -152,6 +173,22 @@ class PluginApp:
     ) -> None:
         """Register a plugin-provided telemetry attribute enricher."""
         self._register("telemetry_attribute_enricher", name, enricher)
+
+    def register_custom_profiler(self, name: str, profiler: CustomProfiler) -> None:
+        """Register a plugin-provided profiler extension."""
+        self._register("custom_profiler", name, profiler)
+
+    def register_custom_metric(self, name: str, metric: CustomMetric) -> None:
+        """Register a plugin-provided profiler metric."""
+        self._register("custom_metric", name, metric)
+
+    def register_custom_recommendation(
+        self,
+        name: str,
+        recommendation: CustomRecommendation,
+    ) -> None:
+        """Register a plugin-provided profiler recommendation."""
+        self._register("custom_recommendation", name, recommendation)
 
     def register_auth_provider(self, name: str, provider: object) -> None:
         """Register a future authentication provider."""
@@ -261,6 +298,9 @@ class PluginApp:
 
 __all__ = [
     "CLICommandRegistrar",
+    "CustomMetric",
+    "CustomProfiler",
+    "CustomRecommendation",
     "EventProcessor",
     "Exporter",
     "MetadataCollector",

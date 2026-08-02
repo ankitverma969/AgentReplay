@@ -32,6 +32,7 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - read-only replay engine
 - read-only diff engine
 - interactive time travel debugger
+- AI agent profiler
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
@@ -174,6 +175,32 @@ agentreplay debug --file exported-run.json
 The debugger includes an execution tree, current event inspector, metadata
 panel, logs, search, filters, timeline navigation, statistics, event export, and
 current-event diffing with `--diff-run`.
+
+## Profiler
+
+Profile recorded runs to find latency bottlenecks, token hotspots, expensive
+operations, inefficient tools, memory overhead, retries, and optimization
+opportunities. Profiling is read-only and never calls an LLM or executes tools.
+
+```bash
+agentreplay profile RUN_ID --db-path .agentreplay/agentreplay.sqlite
+agentreplay profile latest --summary
+agentreplay profile RUN_ID --json
+agentreplay profile RUN_ID --html
+agentreplay profile RUN_ID --markdown
+agentreplay profile RUN_ID --csv
+```
+
+Python API:
+
+```python
+from agentreplay import ProfilerEngine, SQLiteStorage
+
+storage = SQLiteStorage(".agentreplay/agentreplay.sqlite")
+report = ProfilerEngine(storage=storage).profile("run-id")
+
+print(report.summary())
+```
 
 ## Diff
 

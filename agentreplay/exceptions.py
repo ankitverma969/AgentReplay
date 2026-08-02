@@ -49,6 +49,10 @@ class DebuggerError(AgentReplayError):
     """Raised when interactive debugger state or loading fails."""
 
 
+class ProfilerError(AgentReplayError):
+    """Raised when trace profiling cannot be completed."""
+
+
 __all__ = [
     "AdapterError",
     "AgentReplayError",
@@ -58,6 +62,7 @@ __all__ = [
     "InstrumentationError",
     "ObservabilityError",
     "PluginError",
+    "ProfilerError",
     "RedactionError",
     "ReplayError",
     "SerializationError",

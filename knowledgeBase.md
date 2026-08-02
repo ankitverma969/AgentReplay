@@ -23,6 +23,7 @@ Implemented components:
 - Read-only replay engine
 - Read-only diff engine
 - Interactive time travel debugger
+- AI agent profiler
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
@@ -67,6 +68,9 @@ Important packages:
   exporters, sampling, correlation context, and metrics aggregation.
 - `agentreplay.debugger`: offline Textual-powered debugger session, search,
   filtering, statistics, event inspection, export rendering, and full-screen TUI.
+- `agentreplay.profiler`: read-only profiling engine, duration/token/cost/model/
+  tool/memory analysis, bottleneck detection, recommendations, visualization
+  data, and report renderers.
 - `agentreplay.cli`: command-line interface and command handlers.
 - `agentreplay.core`: shared event, run, trace, clock, ID, and metadata models.
 - `agentreplay.testing`: helper utilities for tests and examples.
