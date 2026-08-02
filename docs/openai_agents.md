@@ -51,9 +51,9 @@ Decorate a runner function:
 ```python
 from agentreplay import record_agent
 
+
 @record_agent
-def run_agent(prompt: str) -> str:
-    ...
+def run_agent(prompt: str) -> str: ...
 ```
 
 ## Configuration

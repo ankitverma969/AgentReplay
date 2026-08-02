@@ -31,9 +31,17 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - SQLite storage engine
 - read-only replay engine
 - read-only diff engine
+- interactive time travel debugger
+- AI agent profiler
+- rich standalone HTML trace report generator
+- massive trace optimization and scalability engine
+- AI regression detection and root-cause analysis engine
+- public SDK and extension platform
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
+- Enterprise security and redaction engine
+- Enterprise observability module with OpenTelemetry-compatible exports
 
 Additional framework adapter behavior will be added in later phases.
 
@@ -63,7 +71,39 @@ Use the CLI:
 ```bash
 agentreplay --help
 agentreplay version
+agentreplay benchmark --events 10000
+agentreplay optimize
+agentreplay analyze-db --json
+agentreplay vacuum
+agentreplay regression BASELINE_RUN TARGET_RUN --summary
 ```
+
+## Public SDK
+
+Build third-party extensions with the stable SDK surface:
+
+```python
+from agentreplay.sdk import AnalyzerResult, SDKExtensionMetadata, create_sdk
+
+
+class MyAnalyzer:
+    metadata = SDKExtensionMetadata(
+        name="my-analyzer",
+        version="0.1.0",
+        kind="analyzer",
+    )
+
+    def analyze(self, trace):
+        return AnalyzerResult(analyzer=self.metadata.name)
+
+
+sdk = create_sdk()
+sdk.register(MyAnalyzer())
+```
+
+See `docs/sdk.md` for analyzers, exporters, storage engines, reports,
+visualizations, framework adapters, CLI commands, event bus usage, hooks,
+versioning, and compatibility guidance.
 
 ## In-Memory Recording
 
@@ -97,6 +137,7 @@ Use the decorator form:
 
 ```python
 from agentreplay import record
+
 
 @record
 def my_agent() -> str:
@@ -153,6 +194,71 @@ Use the CLI:
 agentreplay replay RUN_ID --db-path .agentreplay/agentreplay.sqlite
 agentreplay replay --file exported-run.json --timeline
 agentreplay replay RUN_ID --speed 2 --step
+```
+
+## Interactive Debugger
+
+Open a full-screen terminal debugger for recorded runs. The debugger is offline
+and read-only: it loads traces from SQLite or exported JSON and never calls LLMs
+or executes tools.
+
+```bash
+agentreplay debug RUN_ID --db-path .agentreplay/agentreplay.sqlite
+agentreplay debug latest
+agentreplay debug --file exported-run.json
+```
+
+The debugger includes an execution tree, current event inspector, metadata
+panel, logs, search, filters, timeline navigation, statistics, event export, and
+current-event diffing with `--diff-run`.
+
+## Profiler
+
+Profile recorded runs to find latency bottlenecks, token hotspots, expensive
+operations, inefficient tools, memory overhead, retries, and optimization
+opportunities. Profiling is read-only and never calls an LLM or executes tools.
+
+```bash
+agentreplay profile RUN_ID --db-path .agentreplay/agentreplay.sqlite
+agentreplay profile latest --summary
+agentreplay profile RUN_ID --json
+agentreplay profile RUN_ID --html
+agentreplay profile RUN_ID --markdown
+agentreplay profile RUN_ID --csv
+```
+
+Python API:
+
+```python
+from agentreplay import ProfilerEngine, SQLiteStorage
+
+storage = SQLiteStorage(".agentreplay/agentreplay.sqlite")
+report = ProfilerEngine(storage=storage).profile("run-id")
+
+print(report.summary())
+```
+
+## HTML Reports
+
+Generate a self-contained offline HTML report for debugging, auditing, and
+sharing recorded traces. Reports embed all CSS, JavaScript, report data,
+timeline views, graph views, profiler results, security findings, and optional
+diff data into one file.
+
+```bash
+agentreplay report RUN_ID --output report.html
+agentreplay report latest --dark --compress --output report.html
+agentreplay report RUN1 --compare RUN2 --light --output comparison.html
+```
+
+Python API:
+
+```python
+from agentreplay import ReportingEngine, ReportOptions
+from agentreplay.reporting.renderers import render_html
+
+bundle = ReportingEngine().generate("run-id", options=ReportOptions(theme="dark"))
+html = render_html(bundle)
 ```
 
 ## Diff
@@ -258,6 +364,39 @@ class CrewAIPlugin(AgentReplayPlugin):
 
 External packages expose plugins through the `agentreplay.plugins` entry-point
 group and become available after installation.
+
+## Security
+
+AgentReplay redacts common secrets and PII before traces are stored, exported,
+replayed, diffed, or displayed:
+
+```bash
+agentreplay security scan RUN_ID --db-path .agentreplay/agentreplay.sqlite
+agentreplay security verify exported-run.json
+agentreplay security rules
+```
+
+See `docs/security.md` for configuration, examples, best practices, compliance
+notes, and plugin extension points.
+
+## Observability
+
+AgentReplay can map recorded runs to OpenTelemetry-compatible telemetry:
+
+```bash
+agentreplay telemetry status
+agentreplay telemetry test --json
+agentreplay telemetry export RUN_ID --db-path .agentreplay/agentreplay.sqlite
+```
+
+Install OTLP exporter support with:
+
+```bash
+pip install "agentreplay[otel]"
+```
+
+See `docs/observability.md` for architecture, configuration, exporter guides,
+OTLP setup, metrics, performance notes, and troubleshooting.
 
 ```bash
 agentreplay plugins

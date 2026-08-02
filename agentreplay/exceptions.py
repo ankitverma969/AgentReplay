@@ -41,15 +41,50 @@ class RedactionError(AgentReplayError):
     """Raised when sensitive-data redaction fails."""
 
 
+class ObservabilityError(AgentReplayError):
+    """Raised when telemetry mapping or exporting fails."""
+
+
+class DebuggerError(AgentReplayError):
+    """Raised when interactive debugger state or loading fails."""
+
+
+class ProfilerError(AgentReplayError):
+    """Raised when trace profiling cannot be completed."""
+
+
+class ReportingError(AgentReplayError):
+    """Raised when trace report generation cannot be completed."""
+
+
+class PerformanceError(AgentReplayError):
+    """Raised when trace scalability or optimization work fails."""
+
+
+class RegressionError(AgentReplayError):
+    """Raised when regression analysis cannot be completed."""
+
+
+class SDKError(AgentReplayError):
+    """Raised when public SDK extension operations fail."""
+
+
 __all__ = [
     "AdapterError",
     "AgentReplayError",
     "ConfigurationError",
+    "DebuggerError",
     "DiffError",
     "InstrumentationError",
+    "ObservabilityError",
+    "PerformanceError",
     "PluginError",
+    "ProfilerError",
+    "ReportingError",
     "RedactionError",
+    "RegressionError",
     "ReplayError",
+    "SDKError",
     "SerializationError",
     "StorageError",
 ]

@@ -21,7 +21,9 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Typing :: Typed",
 ]
-dependencies = []
+dependencies = [
+  "textual>=0.86,<2",
+]
 
 [project.optional-dependencies]
 dev = [
@@ -35,7 +37,18 @@ dev = [
 ]
 openai-agents = ["openai-agents"]
 langgraph = ["langgraph"]
-all = ["openai-agents", "langgraph"]
+otel = [
+  "opentelemetry-api>=1.25",
+  "opentelemetry-sdk>=1.25",
+  "opentelemetry-exporter-otlp>=1.25",
+]
+all = [
+  "openai-agents",
+  "langgraph",
+  "opentelemetry-api>=1.25",
+  "opentelemetry-sdk>=1.25",
+  "opentelemetry-exporter-otlp>=1.25",
+]
 
 [project.scripts]
 agentreplay = "agentreplay.cli.main:main"
@@ -83,7 +96,9 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 "agentreplay/logging.py" = ["A005"]
+"agentreplay/reporting/renderers.py" = ["E501"]
 "agentreplay/types.py" = ["A005"]
+"examples/**/*.py" = ["T201"]
 "tests/**/*.py" = ["D100", "D101", "D102", "D103"]
 
 [tool.ruff.lint.pydocstyle]

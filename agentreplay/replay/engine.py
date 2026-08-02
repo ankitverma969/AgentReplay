@@ -8,6 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, cast
 
+from agentreplay.config import get_settings
 from agentreplay.constants import EVENT_SCHEMA_VERSION
 from agentreplay.core.events import EventRecord
 from agentreplay.core.runs import RunRecord, RunStatus
@@ -17,6 +18,8 @@ from agentreplay.replay.controller import PlaybackState, ReplayController
 from agentreplay.replay.iterator import ReplayIterator
 from agentreplay.replay.playback import EventTimeline, TimelineEntry
 from agentreplay.replay.session import ReplaySession
+from agentreplay.security import SecurityEngine
+from agentreplay.security.config import security_config_from_settings
 from agentreplay.storage import SQLiteStorage, StorageBackend
 from agentreplay.types import JSONValue, Metadata
 
@@ -59,7 +62,12 @@ class ReplayEngine:
 
     def load_trace(self, trace: TraceSnapshot) -> ReplaySession:
         """Load a trace snapshot into the replay engine."""
-        session = ReplaySession(trace=trace, timeline=EventTimeline.from_trace(trace))
+        security = SecurityEngine(security_config_from_settings(get_settings()))
+        sanitized_trace = security.sanitize_trace(trace)
+        session = ReplaySession(
+            trace=sanitized_trace,
+            timeline=EventTimeline.from_trace(sanitized_trace),
+        )
         self._session = session
         self._controller = ReplayController(session.timeline, speed=self._default_speed)
         return session

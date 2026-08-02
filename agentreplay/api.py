@@ -12,9 +12,25 @@ from agentreplay.adapters.openai_agents import (
 from agentreplay.config import Settings, configure, get_settings, reset_settings
 from agentreplay.container import Container, create_container
 from agentreplay.diff import DiffEngine
+from agentreplay.observability import (
+    CorrelationContext,
+    ObservabilityConfig,
+    ObservabilityEngine,
+    TelemetryExportResult,
+    TelemetryMetrics,
+    TelemetryTrace,
+)
 from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
 from agentreplay.recording import Recorder, record
 from agentreplay.replay import ReplayEngine
+from agentreplay.security import (
+    RedactionStrategy,
+    SecurityConfig,
+    SecurityEngine,
+    SecurityFinding,
+    SecurityReport,
+    SecurityRule,
+)
 from agentreplay.storage import (
     EventQuery,
     Pagination,
@@ -48,17 +64,29 @@ __all__ = [
     "Container",
     "DiffEngine",
     "EventQuery",
+    "ObservabilityConfig",
+    "ObservabilityEngine",
     "OpenAIAgentsConfig",
     "Pagination",
     "PluginApp",
     "PluginManager",
     "Recorder",
+    "RedactionStrategy",
     "ReplayEngine",
     "RunQuery",
     "SQLiteStorage",
     "Settings",
+    "SecurityConfig",
+    "SecurityEngine",
+    "SecurityFinding",
+    "SecurityReport",
+    "SecurityRule",
     "StorageBackend",
+    "TelemetryExportResult",
+    "TelemetryMetrics",
+    "TelemetryTrace",
     "AgentReplayPlugin",
+    "CorrelationContext",
     "configure",
     "create_container",
     "get_settings",

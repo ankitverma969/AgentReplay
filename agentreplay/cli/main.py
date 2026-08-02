@@ -6,16 +6,24 @@ import argparse
 from collections.abc import Sequence
 
 from agentreplay.cli.commands import (
+    debug,
     diff,
     export,
     inspect,
+    performance,
     plugins,
+    profile,
     record,
+    regression,
     replay,
+    report,
     runs,
+    security,
+    telemetry,
     version,
 )
 from agentreplay.logging import setup_logging
+from agentreplay.sdk import register_sdk_cli_commands
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -40,11 +48,19 @@ def build_parser() -> argparse.ArgumentParser:
     version.register(subparsers)
     runs.register(subparsers)
     record.register(subparsers)
+    regression.register(subparsers)
     replay.register(subparsers)
+    debug.register(subparsers)
     diff.register(subparsers)
     inspect.register(subparsers)
     export.register(subparsers)
     plugins.register(subparsers)
+    profile.register(subparsers)
+    report.register(subparsers)
+    security.register(subparsers)
+    telemetry.register(subparsers)
+    performance.register(subparsers)
+    register_sdk_cli_commands(subparsers)
     return parser
 
 

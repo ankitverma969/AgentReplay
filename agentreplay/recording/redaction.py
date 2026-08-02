@@ -1,3 +1,19 @@
-"""Redaction boundary for future sensitive-data filtering."""
+"""Compatibility exports for AgentReplay redaction helpers."""
 
-__all__: list[str] = []
+from agentreplay.security import (
+    RedactionStrategy,
+    SecurityConfig,
+    SecurityEngine,
+    SecurityFinding,
+    SecurityReport,
+    SecurityRule,
+)
+
+__all__ = [
+    "RedactionStrategy",
+    "SecurityConfig",
+    "SecurityEngine",
+    "SecurityFinding",
+    "SecurityReport",
+    "SecurityRule",
+]

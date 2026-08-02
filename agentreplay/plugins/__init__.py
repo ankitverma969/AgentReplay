@@ -2,11 +2,19 @@
 
 from agentreplay.plugins.app import (
     CLICommandRegistrar,
+    CustomMetric,
+    CustomProfiler,
+    CustomRecommendation,
     EventProcessor,
     Exporter,
     MetadataCollector,
     PluginApp,
     PluginHookHandler,
+    RegressionAnalyzer,
+    RegressionRecommendation,
+    RegressionRule,
+    ReportExtension,
+    TelemetryAttributeEnricher,
 )
 from agentreplay.plugins.base import AgentReplayPlugin
 from agentreplay.plugins.compatibility import (
@@ -44,6 +52,9 @@ __all__ = [
     "CONFIG_VALUE_TYPES",
     "CLICommandRegistrar",
     "ConfigValueType",
+    "CustomMetric",
+    "CustomProfiler",
+    "CustomRecommendation",
     "DiscoveredPlugin",
     "EventProcessor",
     "Exporter",
@@ -67,6 +78,11 @@ __all__ = [
     "PluginStatus",
     "PluginType",
     "PluginValidator",
+    "ReportExtension",
+    "RegressionAnalyzer",
+    "RegressionRecommendation",
+    "RegressionRule",
+    "TelemetryAttributeEnricher",
     "AgentReplayPlugin",
     "ensure_agentreplay_compatible",
     "satisfies_version_constraint",

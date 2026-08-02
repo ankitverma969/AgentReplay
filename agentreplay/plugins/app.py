@@ -41,6 +41,69 @@ class MetadataCollector(Protocol):
         """Return metadata to attach to an execution."""
 
 
+class SecurityDetector(Protocol):
+    """Protocol implemented by plugin-provided security detectors."""
+
+    def scan(self, value: object) -> object:
+        """Scan a value and return detector-specific findings."""
+
+
+class TelemetryAttributeEnricher(Protocol):
+    """Protocol implemented by telemetry attribute enrichers."""
+
+    def enrich(self, attributes: Metadata) -> Metadata:
+        """Return extra telemetry attributes."""
+
+
+class CustomProfiler(Protocol):
+    """Protocol implemented by plugin-provided profiler extensions."""
+
+    def profile(self, trace: object) -> object:
+        """Return plugin-specific profile output for a trace-like object."""
+
+
+class CustomMetric(Protocol):
+    """Protocol implemented by plugin-provided profiler metrics."""
+
+    def measure(self, trace: object) -> object:
+        """Return plugin-specific metric output for a trace-like object."""
+
+
+class CustomRecommendation(Protocol):
+    """Protocol implemented by plugin-provided profiler recommendations."""
+
+    def recommend(self, profile: object) -> object:
+        """Return plugin-specific recommendations for a profile-like object."""
+
+
+class ReportExtension(Protocol):
+    """Protocol implemented by plugin-provided report extensions."""
+
+    def render(self, report: object) -> str:
+        """Render extension output for a report-like object."""
+
+
+class RegressionRule(Protocol):
+    """Protocol implemented by plugin-provided regression rules."""
+
+    def analyze(self, baseline: object, target: object) -> object:
+        """Return regression findings from two trace-like objects."""
+
+
+class RegressionAnalyzer(Protocol):
+    """Protocol implemented by plugin-provided regression analyzers."""
+
+    def analyze(self, report: object) -> object:
+        """Return analyzer-specific regression output."""
+
+
+class RegressionRecommendation(Protocol):
+    """Protocol implemented by plugin-provided regression recommenders."""
+
+    def recommend(self, report: object) -> object:
+        """Return additional recommendations for a regression report."""
+
+
 @dataclass(slots=True)
 class PluginApp:
     """Mutable registration facade passed to plugin ``register()`` methods."""
@@ -106,6 +169,106 @@ class PluginApp:
     ) -> None:
         """Register a metadata collector."""
         self._register("metadata_collector", name, collector)
+
+    def register_secret_detector(self, name: str, detector: SecurityDetector) -> None:
+        """Register a plugin-provided secret detector."""
+        self._register("secret_detector", name, detector)
+
+    def register_pii_detector(self, name: str, detector: SecurityDetector) -> None:
+        """Register a plugin-provided PII detector."""
+        self._register("pii_detector", name, detector)
+
+    def register_redaction_rule(self, name: str, rule: object) -> None:
+        """Register a plugin-provided redaction rule."""
+        self._register("redaction_rule", name, rule)
+
+    def register_telemetry_exporter(self, name: str, exporter: object) -> None:
+        """Register a plugin-provided telemetry exporter."""
+        self._register("telemetry_exporter", name, exporter)
+
+    def register_telemetry_metric(self, name: str, metric: object) -> None:
+        """Register a plugin-provided telemetry metric."""
+        self._register("telemetry_metric", name, metric)
+
+    def register_telemetry_span_processor(self, name: str, processor: object) -> None:
+        """Register a plugin-provided telemetry span processor."""
+        self._register("telemetry_span_processor", name, processor)
+
+    def register_telemetry_attribute_enricher(
+        self,
+        name: str,
+        enricher: TelemetryAttributeEnricher,
+    ) -> None:
+        """Register a plugin-provided telemetry attribute enricher."""
+        self._register("telemetry_attribute_enricher", name, enricher)
+
+    def register_custom_profiler(self, name: str, profiler: CustomProfiler) -> None:
+        """Register a plugin-provided profiler extension."""
+        self._register("custom_profiler", name, profiler)
+
+    def register_custom_metric(self, name: str, metric: CustomMetric) -> None:
+        """Register a plugin-provided profiler metric."""
+        self._register("custom_metric", name, metric)
+
+    def register_custom_recommendation(
+        self,
+        name: str,
+        recommendation: CustomRecommendation,
+    ) -> None:
+        """Register a plugin-provided profiler recommendation."""
+        self._register("custom_recommendation", name, recommendation)
+
+    def register_report_section(self, name: str, section: ReportExtension) -> None:
+        """Register a plugin-provided trace report section."""
+        self._register("report_section", name, section)
+
+    def register_report_chart(self, name: str, chart: ReportExtension) -> None:
+        """Register a plugin-provided trace report chart."""
+        self._register("report_chart", name, chart)
+
+    def register_report_widget(self, name: str, widget: ReportExtension) -> None:
+        """Register a plugin-provided trace report widget."""
+        self._register("report_widget", name, widget)
+
+    def register_regression_rule(self, name: str, rule: RegressionRule) -> None:
+        """Register a plugin-provided regression detection rule."""
+        self._register("regression_rule", name, rule)
+
+    def register_regression_analyzer(
+        self,
+        name: str,
+        analyzer: RegressionAnalyzer,
+    ) -> None:
+        """Register a plugin-provided regression analyzer."""
+        self._register("regression_analyzer", name, analyzer)
+
+    def register_regression_recommendation(
+        self,
+        name: str,
+        recommendation: RegressionRecommendation,
+    ) -> None:
+        """Register a plugin-provided regression recommendation source."""
+        self._register("regression_recommendation", name, recommendation)
+
+    def register_sdk_analyzer(self, name: str, analyzer: object) -> None:
+        """Register a public SDK analyzer extension."""
+        self._register("sdk_analyzer", name, analyzer)
+
+    def register_sdk_exporter(self, name: str, exporter: object) -> None:
+        """Register a public SDK exporter extension."""
+        self._register("sdk_exporter", name, exporter)
+
+    def register_sdk_storage(self, name: str, storage: object) -> None:
+        """Register a public SDK storage extension."""
+        self._register("sdk_storage", name, storage)
+
+    def register_sdk_visualization(self, name: str, visualization: object) -> None:
+        """Register a public SDK visualization extension."""
+        self._register("sdk_visualization", name, visualization)
+
+    def register_sdk_report(self, name: str, report: object) -> None:
+        """Register a public SDK report extension."""
+        self._register("sdk_report", name, report)
 
     def register_auth_provider(self, name: str, provider: object) -> None:
         """Register a future authentication provider."""
@@ -215,9 +378,18 @@ class PluginApp:
 
 __all__ = [
     "CLICommandRegistrar",
+    "CustomMetric",
+    "CustomProfiler",
+    "CustomRecommendation",
     "EventProcessor",
     "Exporter",
     "MetadataCollector",
     "PluginApp",
     "PluginHookHandler",
+    "ReportExtension",
+    "RegressionAnalyzer",
+    "RegressionRecommendation",
+    "RegressionRule",
+    "SecurityDetector",
+    "TelemetryAttributeEnricher",
 ]
