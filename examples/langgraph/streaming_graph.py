@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TypedDict
+
 try:
     from langgraph.graph import END, START, StateGraph
 except ImportError as exc:  # pragma: no cover
@@ -11,17 +13,25 @@ except ImportError as exc:  # pragma: no cover
 from agentreplay.langgraph import instrument
 
 
-def draft(state: dict[str, str]) -> dict[str, str]:
+class StreamingState(TypedDict, total=False):
+    """State carried through the streaming example graph."""
+
+    topic: str
+    draft: str
+    answer: str
+
+
+def draft(state: StreamingState) -> StreamingState:
     """Create a draft value."""
     return {"draft": state["topic"]}
 
 
-def finish(state: dict[str, str]) -> dict[str, str]:
+def finish(state: StreamingState) -> StreamingState:
     """Create the final value."""
     return {"answer": f"Finished: {state['draft']}"}
 
 
-builder = StateGraph(dict[str, str])
+builder = StateGraph(StreamingState)
 builder.add_node("draft", draft)
 builder.add_node("finish", finish)
 builder.add_edge(START, "draft")

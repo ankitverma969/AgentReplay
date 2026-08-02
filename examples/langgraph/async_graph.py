@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+from typing import TypedDict
 
 try:
     from langgraph.graph import END, START, StateGraph
@@ -13,7 +14,14 @@ except ImportError as exc:  # pragma: no cover
 from agentreplay.langgraph import instrument
 
 
-async def answer(state: dict[str, str]) -> dict[str, str]:
+class AsyncState(TypedDict, total=False):
+    """State carried through the async example graph."""
+
+    question: str
+    answer: str
+
+
+async def answer(state: AsyncState) -> AsyncState:
     """Return a deterministic async response for the example graph."""
     await asyncio.sleep(0)
     return {"answer": state["question"].upper()}
@@ -21,7 +29,7 @@ async def answer(state: dict[str, str]) -> dict[str, str]:
 
 async def main() -> None:
     """Run the async example graph."""
-    builder = StateGraph(dict[str, str])
+    builder = StateGraph(AsyncState)
     builder.add_node("answer", answer)
     builder.add_edge(START, "answer")
     builder.add_edge("answer", END)

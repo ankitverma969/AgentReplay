@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import TypedDict
+
 try:
     from langgraph.graph import END, START, StateGraph
 except ImportError as exc:  # pragma: no cover
@@ -11,22 +13,31 @@ except ImportError as exc:  # pragma: no cover
 from agentreplay.langgraph import instrument
 
 
-def left(state: dict[str, str]) -> dict[str, str]:
+class ParallelState(TypedDict, total=False):
+    """State carried through the parallel branch example graph."""
+
+    topic: str
+    left: str
+    right: str
+    answer: str
+
+
+def left(state: ParallelState) -> ParallelState:
     """Return the left branch output."""
     return {"left": state["topic"]}
 
 
-def right(state: dict[str, str]) -> dict[str, str]:
+def right(state: ParallelState) -> ParallelState:
     """Return the right branch output."""
     return {"right": state["topic"]}
 
 
-def join(state: dict[str, str]) -> dict[str, str]:
+def join(state: ParallelState) -> ParallelState:
     """Join branch state."""
     return {"answer": f"{state.get('left', '')} {state.get('right', '')}".strip()}
 
 
-builder = StateGraph(dict[str, str])
+builder = StateGraph(ParallelState)
 builder.add_node("left", left)
 builder.add_node("right", right)
 builder.add_node("join", join)
