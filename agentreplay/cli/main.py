@@ -23,6 +23,7 @@ from agentreplay.cli.commands import (
     version,
 )
 from agentreplay.logging import setup_logging
+from agentreplay.sdk import register_sdk_cli_commands
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -59,6 +60,7 @@ def build_parser() -> argparse.ArgumentParser:
     security.register(subparsers)
     telemetry.register(subparsers)
     performance.register(subparsers)
+    register_sdk_cli_commands(subparsers)
     return parser
 
 

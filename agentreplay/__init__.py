@@ -24,6 +24,7 @@ from agentreplay.exceptions import (
     RegressionError,
     ReplayError,
     ReportingError,
+    SDKError,
     SerializationError,
     StorageError,
 )
@@ -60,6 +61,18 @@ from agentreplay.regression import (
 )
 from agentreplay.replay import ReplayEngine
 from agentreplay.reporting import ReportBundle, ReportingEngine, ReportOptions
+from agentreplay.sdk import (
+    SDK_API_VERSION,
+    AgentReplaySDK,
+    AnalyzerResult,
+    ExportResult,
+    ReportSection,
+    SDKContext,
+    SDKEventBus,
+    SDKExtensionMetadata,
+    SDKHookManager,
+    create_sdk,
+)
 from agentreplay.security import (
     RedactionStrategy,
     SecurityConfig,
@@ -81,6 +94,7 @@ __all__ = [
     "__version__",
     "AdapterError",
     "AgentReplay",
+    "AgentReplaySDK",
     "AgentReplayError",
     "ConfigurationError",
     "DebuggerEngine",
@@ -89,6 +103,8 @@ __all__ = [
     "DiffEngine",
     "DiffError",
     "EventQuery",
+    "AnalyzerResult",
+    "ExportResult",
     "ImpactEstimate",
     "InstrumentationError",
     "MetricDelta",
@@ -105,6 +121,7 @@ __all__ = [
     "ProfilerError",
     "ProfilingReport",
     "ReportBundle",
+    "ReportSection",
     "ReportOptions",
     "ReportingEngine",
     "ReportingError",
@@ -124,6 +141,12 @@ __all__ = [
     "SecurityReport",
     "SecurityRule",
     "SerializationError",
+    "SDKError",
+    "SDK_API_VERSION",
+    "SDKContext",
+    "SDKEventBus",
+    "SDKExtensionMetadata",
+    "SDKHookManager",
     "SQLiteStorage",
     "StorageError",
     "StorageBackend",
@@ -137,6 +160,7 @@ __all__ = [
     "CorrelationContext",
     "configure",
     "create_container",
+    "create_sdk",
     "get_settings",
     "instrument",
     "record",

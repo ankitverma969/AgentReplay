@@ -65,6 +65,10 @@ class RegressionError(AgentReplayError):
     """Raised when regression analysis cannot be completed."""
 
 
+class SDKError(AgentReplayError):
+    """Raised when public SDK extension operations fail."""
+
+
 __all__ = [
     "AdapterError",
     "AgentReplayError",
@@ -80,6 +84,7 @@ __all__ = [
     "RedactionError",
     "RegressionError",
     "ReplayError",
+    "SDKError",
     "SerializationError",
     "StorageError",
 ]
