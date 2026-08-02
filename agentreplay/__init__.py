@@ -14,11 +14,20 @@ from agentreplay.exceptions import (
     ConfigurationError,
     DiffError,
     InstrumentationError,
+    ObservabilityError,
     PluginError,
     RedactionError,
     ReplayError,
     SerializationError,
     StorageError,
+)
+from agentreplay.observability import (
+    CorrelationContext,
+    ObservabilityConfig,
+    ObservabilityEngine,
+    TelemetryExportResult,
+    TelemetryMetrics,
+    TelemetryTrace,
 )
 from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
 from agentreplay.recording import Recorder, record
@@ -50,6 +59,9 @@ __all__ = [
     "DiffError",
     "EventQuery",
     "InstrumentationError",
+    "ObservabilityConfig",
+    "ObservabilityEngine",
+    "ObservabilityError",
     "OpenAIAgentsConfig",
     "Pagination",
     "PluginApp",
@@ -70,7 +82,11 @@ __all__ = [
     "SQLiteStorage",
     "StorageError",
     "StorageBackend",
+    "TelemetryExportResult",
+    "TelemetryMetrics",
+    "TelemetryTrace",
     "AgentReplayPlugin",
+    "CorrelationContext",
     "configure",
     "create_container",
     "get_settings",

@@ -35,7 +35,18 @@ dev = [
 ]
 openai-agents = ["openai-agents"]
 langgraph = ["langgraph"]
-all = ["openai-agents", "langgraph"]
+otel = [
+  "opentelemetry-api>=1.25",
+  "opentelemetry-sdk>=1.25",
+  "opentelemetry-exporter-otlp>=1.25",
+]
+all = [
+  "openai-agents",
+  "langgraph",
+  "opentelemetry-api>=1.25",
+  "opentelemetry-sdk>=1.25",
+  "opentelemetry-exporter-otlp>=1.25",
+]
 
 [project.scripts]
 agentreplay = "agentreplay.cli.main:main"

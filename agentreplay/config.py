@@ -18,6 +18,23 @@ from agentreplay.constants import (
     ENV_ENABLED,
     ENV_FAIL_MODE,
     ENV_LOG_LEVEL,
+    ENV_OBSERVABILITY_AUTH_TOKEN,
+    ENV_OBSERVABILITY_BATCH_SIZE,
+    ENV_OBSERVABILITY_COMPRESSION,
+    ENV_OBSERVABILITY_ENABLED,
+    ENV_OBSERVABILITY_ENDPOINT,
+    ENV_OBSERVABILITY_ENVIRONMENT,
+    ENV_OBSERVABILITY_EXPORTER,
+    ENV_OBSERVABILITY_FILE_PATH,
+    ENV_OBSERVABILITY_GRACEFUL_SHUTDOWN_MS,
+    ENV_OBSERVABILITY_HEADERS,
+    ENV_OBSERVABILITY_QUEUE_SIZE,
+    ENV_OBSERVABILITY_SAMPLING,
+    ENV_OBSERVABILITY_SAMPLING_RATIO,
+    ENV_OBSERVABILITY_SERVICE_NAME,
+    ENV_OBSERVABILITY_SERVICE_NAMESPACE,
+    ENV_OBSERVABILITY_TIMEOUT_MS,
+    ENV_OBSERVABILITY_TLS_ENABLED,
     ENV_PLUGIN_AUTO_DISCOVER,
     ENV_PLUGIN_CONFIG_PREFIX,
     ENV_PLUGINS_ENABLED,
@@ -32,6 +49,17 @@ from agentreplay.constants import (
     ENV_STORAGE_BACKEND,
 )
 from agentreplay.exceptions import ConfigurationError
+from agentreplay.observability.config import (
+    parse_compression,
+    parse_exporter,
+    parse_headers,
+    parse_sampling,
+)
+from agentreplay.observability.models import (
+    Compression,
+    SamplingStrategy,
+    TelemetryExporterName,
+)
 from agentreplay.security.config import (
     parse_per_field_strategies,
     parse_security_rules,
@@ -77,6 +105,23 @@ class Settings:
         default_factory=dict,
     )
     security_hash_salt: str = ""
+    observability_enabled: bool = False
+    observability_exporter: TelemetryExporterName = "console"
+    observability_endpoint: str | None = None
+    observability_headers: Mapping[str, str] = field(default_factory=dict)
+    observability_service_name: str = "agentreplay"
+    observability_service_namespace: str | None = None
+    observability_environment: str | None = None
+    observability_sampling: SamplingStrategy = "always_on"
+    observability_sampling_ratio: float = 1.0
+    observability_timeout_ms: int = 10_000
+    observability_tls_enabled: bool = True
+    observability_compression: Compression = "none"
+    observability_file_path: str | None = None
+    observability_batch_size: int = 512
+    observability_queue_size: int = 2048
+    observability_graceful_shutdown_ms: int = 5_000
+    observability_auth_token: str | None = None
     log_level: LogLevel = "WARNING"
     storage_backend: StorageBackendName = "sqlite"
     fail_mode: FailMode = "fail_open"
@@ -144,6 +189,23 @@ def configure(
     security_custom_rules: tuple[SecurityRule, ...] | None = None,
     security_per_field_strategies: Mapping[str, RedactionStrategy] | None = None,
     security_hash_salt: str | None = None,
+    observability_enabled: bool | None = None,
+    observability_exporter: str | None = None,
+    observability_endpoint: str | None = None,
+    observability_headers: Mapping[str, str] | None = None,
+    observability_service_name: str | None = None,
+    observability_service_namespace: str | None = None,
+    observability_environment: str | None = None,
+    observability_sampling: str | None = None,
+    observability_sampling_ratio: float | None = None,
+    observability_timeout_ms: int | None = None,
+    observability_tls_enabled: bool | None = None,
+    observability_compression: str | None = None,
+    observability_file_path: str | None = None,
+    observability_batch_size: int | None = None,
+    observability_queue_size: int | None = None,
+    observability_graceful_shutdown_ms: int | None = None,
+    observability_auth_token: str | None = None,
     log_level: str | None = None,
     storage_backend: str | None = None,
     fail_mode: str | None = None,
@@ -177,6 +239,55 @@ def configure(
         security_per_field_strategies,
     )
     _put_if_not_none(overrides, "security_hash_salt", security_hash_salt)
+    _put_if_not_none(overrides, "observability_enabled", observability_enabled)
+    _put_if_not_none(overrides, "observability_exporter", observability_exporter)
+    _put_if_not_none(overrides, "observability_endpoint", observability_endpoint)
+    _put_if_not_none(overrides, "observability_headers", observability_headers)
+    _put_if_not_none(
+        overrides,
+        "observability_service_name",
+        observability_service_name,
+    )
+    _put_if_not_none(
+        overrides,
+        "observability_service_namespace",
+        observability_service_namespace,
+    )
+    _put_if_not_none(
+        overrides,
+        "observability_environment",
+        observability_environment,
+    )
+    _put_if_not_none(overrides, "observability_sampling", observability_sampling)
+    _put_if_not_none(
+        overrides,
+        "observability_sampling_ratio",
+        observability_sampling_ratio,
+    )
+    _put_if_not_none(
+        overrides,
+        "observability_timeout_ms",
+        observability_timeout_ms,
+    )
+    _put_if_not_none(
+        overrides,
+        "observability_tls_enabled",
+        observability_tls_enabled,
+    )
+    _put_if_not_none(
+        overrides,
+        "observability_compression",
+        observability_compression,
+    )
+    _put_if_not_none(overrides, "observability_file_path", observability_file_path)
+    _put_if_not_none(overrides, "observability_batch_size", observability_batch_size)
+    _put_if_not_none(overrides, "observability_queue_size", observability_queue_size)
+    _put_if_not_none(
+        overrides,
+        "observability_graceful_shutdown_ms",
+        observability_graceful_shutdown_ms,
+    )
+    _put_if_not_none(overrides, "observability_auth_token", observability_auth_token)
     _put_if_not_none(overrides, "log_level", log_level)
     _put_if_not_none(overrides, "storage_backend", storage_backend)
     _put_if_not_none(overrides, "fail_mode", fail_mode)
@@ -275,6 +386,23 @@ def _environment_values(environ: Mapping[str, str]) -> dict[str, object]:
         ENV_SECURITY_DENYLIST: "security_denylist",
         ENV_SECURITY_IGNORE_RULES: "security_ignore_rules",
         ENV_SECURITY_HASH_SALT: "security_hash_salt",
+        ENV_OBSERVABILITY_ENABLED: "observability_enabled",
+        ENV_OBSERVABILITY_EXPORTER: "observability_exporter",
+        ENV_OBSERVABILITY_ENDPOINT: "observability_endpoint",
+        ENV_OBSERVABILITY_HEADERS: "observability_headers",
+        ENV_OBSERVABILITY_SERVICE_NAME: "observability_service_name",
+        ENV_OBSERVABILITY_SERVICE_NAMESPACE: "observability_service_namespace",
+        ENV_OBSERVABILITY_ENVIRONMENT: "observability_environment",
+        ENV_OBSERVABILITY_SAMPLING: "observability_sampling",
+        ENV_OBSERVABILITY_SAMPLING_RATIO: "observability_sampling_ratio",
+        ENV_OBSERVABILITY_TIMEOUT_MS: "observability_timeout_ms",
+        ENV_OBSERVABILITY_TLS_ENABLED: "observability_tls_enabled",
+        ENV_OBSERVABILITY_COMPRESSION: "observability_compression",
+        ENV_OBSERVABILITY_FILE_PATH: "observability_file_path",
+        ENV_OBSERVABILITY_BATCH_SIZE: "observability_batch_size",
+        ENV_OBSERVABILITY_QUEUE_SIZE: "observability_queue_size",
+        ENV_OBSERVABILITY_GRACEFUL_SHUTDOWN_MS: ("observability_graceful_shutdown_ms"),
+        ENV_OBSERVABILITY_AUTH_TOKEN: "observability_auth_token",
         ENV_LOG_LEVEL: "log_level",
         ENV_STORAGE_BACKEND: "storage_backend",
         ENV_FAIL_MODE: "fail_mode",
@@ -374,6 +502,151 @@ def _apply_mapping(
                 updated,
                 security_hash_salt=_parse_string(value, key=key, source=source),
             )
+        elif key == "observability_enabled":
+            updated = replace(
+                updated,
+                observability_enabled=_parse_bool(value, key=key, source=source),
+            )
+        elif key == "observability_exporter":
+            updated = replace(
+                updated,
+                observability_exporter=_parse_observability_exporter(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_endpoint":
+            updated = replace(
+                updated,
+                observability_endpoint=_parse_optional_string(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_headers":
+            updated = replace(
+                updated,
+                observability_headers=_parse_observability_headers(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_service_name":
+            updated = replace(
+                updated,
+                observability_service_name=_parse_string(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_service_namespace":
+            updated = replace(
+                updated,
+                observability_service_namespace=_parse_optional_string(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_environment":
+            updated = replace(
+                updated,
+                observability_environment=_parse_optional_string(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_sampling":
+            updated = replace(
+                updated,
+                observability_sampling=_parse_observability_sampling(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_sampling_ratio":
+            updated = replace(
+                updated,
+                observability_sampling_ratio=_parse_ratio(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_timeout_ms":
+            updated = replace(
+                updated,
+                observability_timeout_ms=_parse_positive_int(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_tls_enabled":
+            updated = replace(
+                updated,
+                observability_tls_enabled=_parse_bool(value, key=key, source=source),
+            )
+        elif key == "observability_compression":
+            updated = replace(
+                updated,
+                observability_compression=_parse_observability_compression(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_file_path":
+            updated = replace(
+                updated,
+                observability_file_path=_parse_optional_string(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_batch_size":
+            updated = replace(
+                updated,
+                observability_batch_size=_parse_positive_int(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_queue_size":
+            updated = replace(
+                updated,
+                observability_queue_size=_parse_positive_int(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_graceful_shutdown_ms":
+            updated = replace(
+                updated,
+                observability_graceful_shutdown_ms=_parse_positive_int(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "observability_auth_token":
+            updated = replace(
+                updated,
+                observability_auth_token=_parse_optional_string(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
         elif key == "log_level":
             updated = replace(
                 updated,
@@ -425,6 +698,8 @@ def _apply_mapping(
             updated = _apply_plugins_table(updated, value, source=source)
         elif key == "security":
             updated = _apply_security_table(updated, value, source=source)
+        elif key == "observability":
+            updated = _apply_observability_table(updated, value, source=source)
         elif key == "config_file":
             updated = replace(
                 updated,
@@ -468,6 +743,47 @@ def _parse_string(value: object, *, key: str, source: str) -> str:
     raise ConfigurationError(msg)
 
 
+def _parse_optional_string(value: object, *, key: str, source: str) -> str | None:
+    """Parse an optional string configuration value."""
+    if value is None:
+        return None
+    return _parse_string(value, key=key, source=source)
+
+
+def _parse_positive_int(value: object, *, key: str, source: str) -> int:
+    """Parse a positive integer configuration value."""
+    if isinstance(value, int) and value > 0:
+        return value
+    if isinstance(value, str):
+        try:
+            parsed = int(value.strip())
+        except ValueError:
+            parsed = 0
+        if parsed > 0:
+            return parsed
+    msg = f"Configuration key {key!r} from {source} must be a positive integer."
+    raise ConfigurationError(msg)
+
+
+def _parse_ratio(value: object, *, key: str, source: str) -> float:
+    """Parse a sampling ratio from 0.0 to 1.0."""
+    if isinstance(value, int | float):
+        parsed = float(value)
+    elif isinstance(value, str):
+        try:
+            parsed = float(value.strip())
+        except ValueError as exc:
+            msg = f"Configuration key {key!r} from {source} must be a ratio."
+            raise ConfigurationError(msg) from exc
+    else:
+        msg = f"Configuration key {key!r} from {source} must be a ratio."
+        raise ConfigurationError(msg)
+    if 0.0 <= parsed <= 1.0:
+        return parsed
+    msg = f"Configuration key {key!r} from {source} must be between 0.0 and 1.0."
+    raise ConfigurationError(msg)
+
+
 def _parse_security_strategy(
     value: object,
     *,
@@ -477,6 +793,58 @@ def _parse_security_strategy(
     """Parse a security redaction strategy."""
     try:
         return parse_security_strategy(value, key=key, source=source)
+    except ValueError as exc:
+        raise ConfigurationError(str(exc)) from exc
+
+
+def _parse_observability_exporter(
+    value: object,
+    *,
+    key: str,
+    source: str,
+) -> TelemetryExporterName:
+    """Parse observability exporter selection."""
+    try:
+        return parse_exporter(value, key=key, source=source)
+    except ValueError as exc:
+        raise ConfigurationError(str(exc)) from exc
+
+
+def _parse_observability_sampling(
+    value: object,
+    *,
+    key: str,
+    source: str,
+) -> SamplingStrategy:
+    """Parse observability sampling strategy."""
+    try:
+        return parse_sampling(value, key=key, source=source)
+    except ValueError as exc:
+        raise ConfigurationError(str(exc)) from exc
+
+
+def _parse_observability_compression(
+    value: object,
+    *,
+    key: str,
+    source: str,
+) -> Compression:
+    """Parse observability compression mode."""
+    try:
+        return parse_compression(value, key=key, source=source)
+    except ValueError as exc:
+        raise ConfigurationError(str(exc)) from exc
+
+
+def _parse_observability_headers(
+    value: object,
+    *,
+    key: str,
+    source: str,
+) -> Mapping[str, str]:
+    """Parse observability exporter headers."""
+    try:
+        return parse_headers(value, key=key, source=source)
     except ValueError as exc:
         raise ConfigurationError(str(exc)) from exc
 
@@ -629,6 +997,45 @@ def _apply_security_table(
         key = str(raw_key)
         if key not in aliases:
             msg = f"Unknown AgentReplay security configuration key {key!r}."
+            raise ConfigurationError(msg)
+        normalized[aliases[key]] = item
+    return _apply_mapping(settings, normalized, source=source)
+
+
+def _apply_observability_table(
+    settings: Settings,
+    value: object,
+    *,
+    source: str,
+) -> Settings:
+    """Apply nested ``observability`` configuration."""
+    if not isinstance(value, Mapping):
+        msg = f"Configuration key 'observability' from {source} must be a table."
+        raise ConfigurationError(msg)
+    normalized: dict[str, object] = {}
+    aliases = {
+        "enabled": "observability_enabled",
+        "exporter": "observability_exporter",
+        "endpoint": "observability_endpoint",
+        "headers": "observability_headers",
+        "service_name": "observability_service_name",
+        "service_namespace": "observability_service_namespace",
+        "environment": "observability_environment",
+        "sampling": "observability_sampling",
+        "sampling_ratio": "observability_sampling_ratio",
+        "timeout_ms": "observability_timeout_ms",
+        "tls_enabled": "observability_tls_enabled",
+        "compression": "observability_compression",
+        "file_path": "observability_file_path",
+        "batch_size": "observability_batch_size",
+        "queue_size": "observability_queue_size",
+        "graceful_shutdown_ms": "observability_graceful_shutdown_ms",
+        "auth_token": "observability_auth_token",
+    }
+    for raw_key, item in value.items():
+        key = str(raw_key)
+        if key not in aliases:
+            msg = f"Unknown AgentReplay observability configuration key {key!r}."
             raise ConfigurationError(msg)
         normalized[aliases[key]] = item
     return _apply_mapping(settings, normalized, source=source)

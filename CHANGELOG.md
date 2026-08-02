@@ -29,3 +29,7 @@ The project follows Semantic Versioning.
   configurable redaction strategies, recorder/export/replay/diff sanitization,
   CLI scan/verify/report/rules commands, plugin security registrations,
   documentation, and tests.
+- Added enterprise observability module with OpenTelemetry-compatible trace
+  mapping, console/JSON/file/OTLP exporters, sampling, correlation context,
+  metrics aggregation, telemetry CLI commands, plugin observability
+  registrations, documentation, and tests.

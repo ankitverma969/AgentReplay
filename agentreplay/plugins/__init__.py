@@ -7,6 +7,7 @@ from agentreplay.plugins.app import (
     MetadataCollector,
     PluginApp,
     PluginHookHandler,
+    TelemetryAttributeEnricher,
 )
 from agentreplay.plugins.base import AgentReplayPlugin
 from agentreplay.plugins.compatibility import (
@@ -67,6 +68,7 @@ __all__ = [
     "PluginStatus",
     "PluginType",
     "PluginValidator",
+    "TelemetryAttributeEnricher",
     "AgentReplayPlugin",
     "ensure_agentreplay_compatible",
     "satisfies_version_constraint",
