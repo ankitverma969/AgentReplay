@@ -29,6 +29,9 @@ PluginType = Literal[
     "report_section",
     "report_chart",
     "report_widget",
+    "regression_rule",
+    "regression_analyzer",
+    "regression_recommendation",
     "auth_provider",
 ]
 PluginStatus = Literal["discovered", "loaded", "disabled", "failed", "unloaded"]
@@ -67,6 +70,9 @@ PLUGIN_TYPES: tuple[PluginType, ...] = (
     "report_section",
     "report_chart",
     "report_widget",
+    "regression_rule",
+    "regression_analyzer",
+    "regression_recommendation",
     "auth_provider",
 )
 HOOK_NAMES: tuple[HookName, ...] = (

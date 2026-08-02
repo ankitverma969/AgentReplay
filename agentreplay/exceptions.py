@@ -61,6 +61,10 @@ class PerformanceError(AgentReplayError):
     """Raised when trace scalability or optimization work fails."""
 
 
+class RegressionError(AgentReplayError):
+    """Raised when regression analysis cannot be completed."""
+
+
 __all__ = [
     "AdapterError",
     "AgentReplayError",
@@ -74,6 +78,7 @@ __all__ = [
     "ProfilerError",
     "ReportingError",
     "RedactionError",
+    "RegressionError",
     "ReplayError",
     "SerializationError",
     "StorageError",

@@ -78,6 +78,9 @@ Important packages:
 - `agentreplay.performance`: chunked and windowed trace loading, partial replay,
   streaming exports, compression helpers, memory cache, object pooling, SQLite
   optimization, high-performance search, parallel helpers, and benchmark reports.
+- `agentreplay.regression`: deterministic AI regression detection, root-cause
+  analysis, impact estimates, trend analysis, recommendations, visual comparison
+  data, plugin extension points, and `agentreplay regression` reports.
 - `agentreplay.cli`: command-line interface and command handlers.
 - `agentreplay.core`: shared event, run, trace, clock, ID, and metadata models.
 - `agentreplay.testing`: helper utilities for tests and examples.

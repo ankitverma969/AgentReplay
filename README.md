@@ -35,6 +35,7 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - AI agent profiler
 - rich standalone HTML trace report generator
 - massive trace optimization and scalability engine
+- AI regression detection and root-cause analysis engine
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
@@ -73,6 +74,7 @@ agentreplay benchmark --events 10000
 agentreplay optimize
 agentreplay analyze-db --json
 agentreplay vacuum
+agentreplay regression BASELINE_RUN TARGET_RUN --summary
 ```
 
 ## In-Memory Recording

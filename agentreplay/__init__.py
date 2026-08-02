@@ -21,6 +21,7 @@ from agentreplay.exceptions import (
     PluginError,
     ProfilerError,
     RedactionError,
+    RegressionError,
     ReplayError,
     ReportingError,
     SerializationError,
@@ -48,6 +49,15 @@ from agentreplay.performance import (
 from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
 from agentreplay.profiler import ProfilerEngine, ProfilingReport
 from agentreplay.recording import Recorder, record
+from agentreplay.regression import (
+    ImpactEstimate,
+    MetricDelta,
+    RegressionEngine,
+    RegressionFinding,
+    RegressionReport,
+    RootCause,
+    TrendAnalysis,
+)
 from agentreplay.replay import ReplayEngine
 from agentreplay.reporting import ReportBundle, ReportingEngine, ReportOptions
 from agentreplay.security import (
@@ -79,7 +89,9 @@ __all__ = [
     "DiffEngine",
     "DiffError",
     "EventQuery",
+    "ImpactEstimate",
     "InstrumentationError",
+    "MetricDelta",
     "ObservabilityConfig",
     "ObservabilityEngine",
     "ObservabilityError",
@@ -98,6 +110,10 @@ __all__ = [
     "ReportingError",
     "RedactionError",
     "RedactionStrategy",
+    "RegressionEngine",
+    "RegressionError",
+    "RegressionFinding",
+    "RegressionReport",
     "ReplayError",
     "ReplayEngine",
     "Recorder",
@@ -126,10 +142,12 @@ __all__ = [
     "record",
     "record_agent",
     "reset_settings",
+    "RootCause",
     "SQLiteOptimizer",
     "SearchQuery",
     "SearchResults",
     "StreamingTraceExporter",
     "TraceSearchEngine",
     "TraceWindowReader",
+    "TrendAnalysis",
 ]
