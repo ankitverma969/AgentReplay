@@ -177,6 +177,7 @@ def test_plugin_app_registers_profiler_capabilities() -> None:
     assert {"custom_profiler", "custom_metric", "custom_recommendation"} <= kinds
 
 
+@pytest.mark.performance
 def test_profiler_large_trace_is_linear_enough() -> None:
     trace = _large_trace("run-large", count=20_000)
 

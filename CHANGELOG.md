@@ -56,3 +56,9 @@ The project follows Semantic Versioning.
   typed event bus, hook manager, compatibility checks, deprecation helpers,
   extension registry, plugin bridge, dynamic CLI command registration, examples,
   documentation, and tests.
+- Added production release engineering with multi-platform CI for Python 3.11,
+  3.12, and 3.13; Ruff, MyPy, pytest, coverage, pre-commit, Bandit, pip-audit,
+  CodeQL, Vulture, MkDocs Material documentation, package validation,
+  benchmark automation, semantic-release configuration, PyPI publishing
+  workflow, GitHub release workflow, community templates, security policy,
+  support policy, and code of conduct.

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import argparse
-import subprocess
+import subprocess  # nosec B404
 import sys
 from pathlib import Path
 
@@ -88,7 +88,7 @@ def handle_info(args: argparse.Namespace) -> int:
 def handle_install(args: argparse.Namespace) -> int:
     """Install a plugin package through pip."""
     command = [sys.executable, "-m", "pip", "install", args.package]
-    result = subprocess.run(command, check=False)
+    result = subprocess.run(command, check=False)  # nosec B603
     if result.returncode != 0:
         write_line(f"agentreplay plugins install: pip failed for {args.package}")
         return int(result.returncode)

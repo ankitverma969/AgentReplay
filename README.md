@@ -13,10 +13,10 @@ and integrate it into agent frameworks with minimal code. AgentReplay observes
 and records execution events so runs can later be inspected, replayed, compared,
 and exported.
 
-## Phase 1 Status
+## Status
 
-This repository currently contains the project foundation, recorder engine,
-SQLite storage engine, replay engine, diff engine, and first framework adapters:
+AgentReplay is feature complete for its initial open-source release candidate.
+The repository contains:
 
 - Python package scaffold
 - CLI entrypoint
@@ -42,8 +42,8 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - Plugin SDK
 - Enterprise security and redaction engine
 - Enterprise observability module with OpenTelemetry-compatible exports
-
-Additional framework adapter behavior will be added in later phases.
+- release engineering for PyPI, GitHub Releases, CI, security scanning,
+  documentation publishing, packaging validation, and benchmarks
 
 ## Requirements
 
@@ -64,6 +64,18 @@ Run the quality checks:
 
 ```bash
 make check
+```
+
+Run the full release-readiness suite before publishing:
+
+```bash
+make coverage
+make security
+make dead-code
+make docs
+make benchmark
+make build
+python -m twine check dist/*
 ```
 
 Use the CLI:
@@ -203,6 +215,7 @@ and read-only: it loads traces from SQLite or exported JSON and never calls LLMs
 or executes tools.
 
 ```bash
+pip install "agentreplay[debugger]"
 agentreplay debug RUN_ID --db-path .agentreplay/agentreplay.sqlite
 agentreplay debug latest
 agentreplay debug --file exported-run.json

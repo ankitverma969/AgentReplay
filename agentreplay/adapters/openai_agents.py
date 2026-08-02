@@ -41,6 +41,7 @@ R = TypeVar("R")
 
 _TRUE_VALUES = frozenset({"1", "true", "yes", "on"})
 _FALSE_VALUES = frozenset({"0", "false", "no", "off"})
+_SAMPLER = random.SystemRandom()
 _HIDDEN = "[hidden]"
 _REDACTED = "[redacted]"
 _API_KEY_MARKERS = ("api_key", "apikey", "authorization", "bearer", "token")
@@ -595,7 +596,7 @@ class OpenAIAgentsTraceProcessor:
         """Return whether the next trace should be sampled."""
         return (
             self._config.sample_rate >= 1.0
-            or random.random() < self._config.sample_rate
+            or _SAMPLER.random() < self._config.sample_rate
         )
 
     def _metadata(self, values: Mapping[str, object] | None = None) -> Metadata:

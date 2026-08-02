@@ -27,6 +27,10 @@ _PERFORMANCE_INDEXES = (
     ON metadata(owner_type, key, value_json, owner_id)
     """,
 )
+_COUNT_TABLES = {
+    "events": "events",
+    "runs": "runs",
+}
 
 
 class SQLiteOptimizer:
@@ -117,7 +121,13 @@ def _pragma_int(connection: sqlite3.Connection, name: str) -> int:
 
 def _count(connection: sqlite3.Connection, table: str) -> int:
     """Count rows in a known internal table."""
-    row = connection.execute(f"SELECT COUNT(*) AS count FROM {table}").fetchone()
+    safe_table = _COUNT_TABLES.get(table)
+    if safe_table is None:
+        msg = f"Unknown AgentReplay SQLite table {table!r}."
+        raise PerformanceError(msg)
+    row = connection.execute(
+        f"SELECT COUNT(*) AS count FROM {safe_table}",  # nosec B608
+    ).fetchone()
     return 0 if row is None else int(row["count"])
 
 

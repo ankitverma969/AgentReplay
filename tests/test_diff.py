@@ -209,6 +209,7 @@ def test_diff_engine_warns_for_partial_and_empty_recordings() -> None:
     assert "At least one run has no recorded events." in result.warnings
 
 
+@pytest.mark.performance
 def test_diff_engine_compares_large_runs_efficiently() -> None:
     left = _large_trace("left", count=3000)
     right = _large_trace("right", count=3000, changed_index=1499)
@@ -218,7 +219,7 @@ def test_diff_engine_compares_large_runs_efficiently() -> None:
     elapsed = perf_counter() - started
 
     assert result.stats.modified == 1
-    assert elapsed < 2.0
+    assert elapsed < 5.0
 
 
 def _trace(

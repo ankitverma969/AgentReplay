@@ -1,0 +1,76 @@
+site_name: AgentReplay
+site_description: Framework-agnostic debugging, replay, and observability for AI agents.
+site_url: https://ankitverma969.github.io/AgentReplay/
+repo_url: https://github.com/ankitverma969/AgentReplay
+repo_name: ankitverma969/AgentReplay
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            show_root_heading: true
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Tutorials: tutorials.md
+      - Cookbook: cookbook.md
+      - Examples: examples.md
+      - FAQ: faq.md
+  - Architecture:
+      - Overview: architecture.md
+      - Development: development.md
+      - SDK: sdk.md
+      - Plugins: plugins.md
+  - Guides:
+      - OpenAI Agents SDK: openai_agents.md
+      - LangGraph: langgraph.md
+      - Debugger: debugger.md
+      - Profiler: profiler.md
+      - Reporting: reporting.md
+      - Regression: regression.md
+      - Performance: performance.md
+      - Security: security.md
+      - Observability: observability.md
+  - Reference:
+      - API Reference: api_reference.md
+      - Migration Guide: migration.md
+      - Release Engineering: release_engineering.md
