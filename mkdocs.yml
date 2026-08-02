@@ -43,7 +43,11 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.inlinehilite
   - pymdownx.tabbed:
       alternate_style: true
@@ -55,22 +59,38 @@ nav:
       - Cookbook: cookbook.md
       - Examples: examples.md
       - FAQ: faq.md
+      - Troubleshooting: TROUBLESHOOTING.md
+      - Best Practices: BEST_PRACTICES.md
   - Architecture:
       - Overview: architecture.md
+      - System Design: SYSTEM_DESIGN.md
+      - Storage: STORAGE_GUIDE.md
       - Development: development.md
-      - SDK: sdk.md
-      - Plugins: plugins.md
   - Guides:
       - OpenAI Agents SDK: openai_agents.md
       - LangGraph: langgraph.md
-      - Debugger: debugger.md
-      - Profiler: profiler.md
-      - Reporting: reporting.md
-      - Regression: regression.md
-      - Performance: performance.md
-      - Security: security.md
-      - Observability: observability.md
+      - Debugger: DEBUGGER_GUIDE.md
+      - Profiler: PROFILER_GUIDE.md
+      - Reporting: REPORTING_GUIDE.md
+      - Regression: REGRESSION_GUIDE.md
+      - Performance: PERFORMANCE_GUIDE.md
+      - Security: SECURITY_GUIDE.md
+      - Observability: OBSERVABILITY_GUIDE.md
+      - Configuration: CONFIGURATION_GUIDE.md
+      - SDK: SDK_GUIDE.md
+      - Plugins: PLUGIN_GUIDE.md
   - Reference:
       - API Reference: api_reference.md
+      - CLI Reference: CLI_REFERENCE.md
       - Migration Guide: migration.md
       - Release Engineering: release_engineering.md
+  - Module Deep Dives:
+      - Debugger Notes: debugger.md
+      - Profiler Notes: profiler.md
+      - Reporting Notes: reporting.md
+      - Regression Notes: regression.md
+      - Performance Notes: performance.md
+      - Security Notes: security.md
+      - Observability Notes: observability.md
+      - SDK Notes: sdk.md
+      - Plugin Notes: plugins.md

@@ -62,3 +62,8 @@ The project follows Semantic Versioning.
   benchmark automation, semantic-release configuration, PyPI publishing
   workflow, GitHub release workflow, community templates, security policy,
   support policy, and code of conduct.
+- Reworked project documentation with an implementation-aligned README,
+  MkDocs navigation, architecture and system design guides, API and CLI
+  references, configuration, storage, security, observability, performance,
+  debugger, profiler, reporting, regression, SDK, plugin, troubleshooting, FAQ,
+  best-practices, and roadmap documentation.

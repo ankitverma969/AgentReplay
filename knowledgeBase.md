@@ -60,8 +60,8 @@ Important packages:
   iterator, controller, and playback state.
 - `agentreplay.diff`: run comparison engine, event matching, diff models, and
   console/JSON/Markdown/HTML renderers.
-- `agentreplay.adapters`: framework adapter implementations and adapter
-  registry placeholders.
+- `agentreplay.adapters`: implemented framework adapters, adapter base classes,
+  and registry support for future integrations.
 - `agentreplay.plugins`: plugin base class, discovery, validation, lifecycle
   management, registry, dependency resolution, and plugin app surface.
 - `agentreplay.security`: compiled secret and PII detection rules, redaction
@@ -563,7 +563,7 @@ Typical environment variable style:
 
 ```bash
 AGENTREPLAY_LOG_LEVEL=INFO
-AGENTREPLAY_STORAGE_PATH=.agentreplay/agentreplay.sqlite
+AGENTREPLAY_DB_PATH=.agentreplay/agentreplay.sqlite
 AGENTREPLAY_PLUGIN_AUTO_DISCOVER=true
 ```
 
@@ -690,7 +690,7 @@ The following are important to know before production release:
 - Replay and diff currently load full runs into memory.
 - Only SQLite storage is implemented.
 - OpenAI Agents SDK and LangGraph are the only first-class adapters.
-- Other framework adapter modules are placeholders for future integration work.
+- Other framework adapter modules are reserved for future integration work.
 - Optional SDK integration tests depend on optional third-party packages.
 - The project has not yet reached a stable `1.0` API contract.
 
