@@ -24,6 +24,7 @@ Implemented components:
 - Read-only diff engine
 - Interactive time travel debugger
 - AI agent profiler
+- Rich standalone HTML trace report generator
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
@@ -71,6 +72,9 @@ Important packages:
 - `agentreplay.profiler`: read-only profiling engine, duration/token/cost/model/
   tool/memory analysis, bottleneck detection, recommendations, visualization
   data, and report renderers.
+- `agentreplay.reporting`: standalone offline HTML trace report bundles,
+  execution graph and timeline data, search/filter indexes, profiler/security/
+  diff integration, report renderers, and plugin report extensions.
 - `agentreplay.cli`: command-line interface and command handlers.
 - `agentreplay.core`: shared event, run, trace, clock, ID, and metadata models.
 - `agentreplay.testing`: helper utilities for tests and examples.

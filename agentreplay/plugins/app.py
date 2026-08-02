@@ -76,6 +76,13 @@ class CustomRecommendation(Protocol):
         """Return plugin-specific recommendations for a profile-like object."""
 
 
+class ReportExtension(Protocol):
+    """Protocol implemented by plugin-provided report extensions."""
+
+    def render(self, report: object) -> str:
+        """Render extension output for a report-like object."""
+
+
 @dataclass(slots=True)
 class PluginApp:
     """Mutable registration facade passed to plugin ``register()`` methods."""
@@ -189,6 +196,18 @@ class PluginApp:
     ) -> None:
         """Register a plugin-provided profiler recommendation."""
         self._register("custom_recommendation", name, recommendation)
+
+    def register_report_section(self, name: str, section: ReportExtension) -> None:
+        """Register a plugin-provided trace report section."""
+        self._register("report_section", name, section)
+
+    def register_report_chart(self, name: str, chart: ReportExtension) -> None:
+        """Register a plugin-provided trace report chart."""
+        self._register("report_chart", name, chart)
+
+    def register_report_widget(self, name: str, widget: ReportExtension) -> None:
+        """Register a plugin-provided trace report widget."""
+        self._register("report_widget", name, widget)
 
     def register_auth_provider(self, name: str, provider: object) -> None:
         """Register a future authentication provider."""
@@ -306,6 +325,7 @@ __all__ = [
     "MetadataCollector",
     "PluginApp",
     "PluginHookHandler",
+    "ReportExtension",
     "SecurityDetector",
     "TelemetryAttributeEnricher",
 ]

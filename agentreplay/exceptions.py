@@ -53,6 +53,10 @@ class ProfilerError(AgentReplayError):
     """Raised when trace profiling cannot be completed."""
 
 
+class ReportingError(AgentReplayError):
+    """Raised when trace report generation cannot be completed."""
+
+
 __all__ = [
     "AdapterError",
     "AgentReplayError",
@@ -63,6 +67,7 @@ __all__ = [
     "ObservabilityError",
     "PluginError",
     "ProfilerError",
+    "ReportingError",
     "RedactionError",
     "ReplayError",
     "SerializationError",
