@@ -48,6 +48,13 @@ class SecurityDetector(Protocol):
         """Scan a value and return detector-specific findings."""
 
 
+class TelemetryAttributeEnricher(Protocol):
+    """Protocol implemented by telemetry attribute enrichers."""
+
+    def enrich(self, attributes: Metadata) -> Metadata:
+        """Return extra telemetry attributes."""
+
+
 @dataclass(slots=True)
 class PluginApp:
     """Mutable registration facade passed to plugin ``register()`` methods."""
@@ -125,6 +132,26 @@ class PluginApp:
     def register_redaction_rule(self, name: str, rule: object) -> None:
         """Register a plugin-provided redaction rule."""
         self._register("redaction_rule", name, rule)
+
+    def register_telemetry_exporter(self, name: str, exporter: object) -> None:
+        """Register a plugin-provided telemetry exporter."""
+        self._register("telemetry_exporter", name, exporter)
+
+    def register_telemetry_metric(self, name: str, metric: object) -> None:
+        """Register a plugin-provided telemetry metric."""
+        self._register("telemetry_metric", name, metric)
+
+    def register_telemetry_span_processor(self, name: str, processor: object) -> None:
+        """Register a plugin-provided telemetry span processor."""
+        self._register("telemetry_span_processor", name, processor)
+
+    def register_telemetry_attribute_enricher(
+        self,
+        name: str,
+        enricher: TelemetryAttributeEnricher,
+    ) -> None:
+        """Register a plugin-provided telemetry attribute enricher."""
+        self._register("telemetry_attribute_enricher", name, enricher)
 
     def register_auth_provider(self, name: str, provider: object) -> None:
         """Register a future authentication provider."""
@@ -240,4 +267,5 @@ __all__ = [
     "PluginApp",
     "PluginHookHandler",
     "SecurityDetector",
+    "TelemetryAttributeEnricher",
 ]

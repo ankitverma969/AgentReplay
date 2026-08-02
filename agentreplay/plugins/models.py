@@ -19,6 +19,10 @@ PluginType = Literal[
     "secret_detector",
     "pii_detector",
     "redaction_rule",
+    "telemetry_exporter",
+    "telemetry_metric",
+    "telemetry_span_processor",
+    "telemetry_attribute_enricher",
     "auth_provider",
 ]
 PluginStatus = Literal["discovered", "loaded", "disabled", "failed", "unloaded"]
@@ -47,6 +51,10 @@ PLUGIN_TYPES: tuple[PluginType, ...] = (
     "secret_detector",
     "pii_detector",
     "redaction_rule",
+    "telemetry_exporter",
+    "telemetry_metric",
+    "telemetry_span_processor",
+    "telemetry_attribute_enricher",
     "auth_provider",
 )
 HOOK_NAMES: tuple[HookName, ...] = (

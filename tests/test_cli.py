@@ -15,6 +15,7 @@ def test_help_contains_phase_one_commands() -> None:
     assert "diff" in help_text
     assert "export" in help_text
     assert "security" in help_text
+    assert "telemetry" in help_text
 
 
 def test_help_exits_successfully() -> None:

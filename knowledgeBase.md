@@ -26,6 +26,7 @@ Implemented components:
 - LangGraph adapter
 - Plugin SDK
 - Enterprise security and redaction engine
+- Enterprise observability module with OpenTelemetry-compatible exports
 - Examples and developer documentation
 - CI workflow for linting, typing, and tests
 
@@ -61,6 +62,8 @@ Important packages:
   management, registry, dependency resolution, and plugin app surface.
 - `agentreplay.security`: compiled secret and PII detection rules, redaction
   strategies, scan reports, trace sanitization, and report renderers.
+- `agentreplay.observability`: OpenTelemetry-compatible trace mapping,
+  exporters, sampling, correlation context, and metrics aggregation.
 - `agentreplay.cli`: command-line interface and command handlers.
 - `agentreplay.core`: shared event, run, trace, clock, ID, and metadata models.
 - `agentreplay.testing`: helper utilities for tests and examples.
@@ -328,6 +331,25 @@ agentreplay security rules
 See `docs/security.md` for configuration, examples, best practices, compliance
 notes, and plugin extension points.
 
+### Observability
+
+AgentReplay can map each run to an OpenTelemetry-compatible trace and each event
+to a span. The module supports console, JSON, file, OTLP HTTP, and OTLP gRPC
+exporters, plus sampling, correlation IDs, baggage, metrics, and plugin
+extension points.
+
+Use the CLI:
+
+```bash
+agentreplay telemetry status
+agentreplay telemetry config --json
+agentreplay telemetry test --json
+agentreplay telemetry export RUN_ID --db-path .agentreplay/agentreplay.sqlite
+```
+
+See `docs/observability.md` for architecture, exporter setup, OTLP guidance,
+metrics, best practices, performance notes, and troubleshooting.
+
 ## Installation
 
 Install the base package:
@@ -590,6 +612,7 @@ Primary documentation files:
 - `docs/langgraph.md`: LangGraph adapter guide
 - `docs/plugins.md`: Plugin SDK guide
 - `docs/security.md`: security and redaction guide
+- `docs/observability.md`: observability and OpenTelemetry guide
 - `CONTRIBUTING.md`: contribution process
 - `CHANGELOG.md`: release history
 

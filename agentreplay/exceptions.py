@@ -41,12 +41,17 @@ class RedactionError(AgentReplayError):
     """Raised when sensitive-data redaction fails."""
 
 
+class ObservabilityError(AgentReplayError):
+    """Raised when telemetry mapping or exporting fails."""
+
+
 __all__ = [
     "AdapterError",
     "AgentReplayError",
     "ConfigurationError",
     "DiffError",
     "InstrumentationError",
+    "ObservabilityError",
     "PluginError",
     "RedactionError",
     "ReplayError",

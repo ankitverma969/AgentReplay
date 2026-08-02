@@ -35,6 +35,7 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - LangGraph adapter
 - Plugin SDK
 - Enterprise security and redaction engine
+- Enterprise observability module with OpenTelemetry-compatible exports
 
 Additional framework adapter behavior will be added in later phases.
 
@@ -273,6 +274,25 @@ agentreplay security rules
 
 See `docs/security.md` for configuration, examples, best practices, compliance
 notes, and plugin extension points.
+
+## Observability
+
+AgentReplay can map recorded runs to OpenTelemetry-compatible telemetry:
+
+```bash
+agentreplay telemetry status
+agentreplay telemetry test --json
+agentreplay telemetry export RUN_ID --db-path .agentreplay/agentreplay.sqlite
+```
+
+Install OTLP exporter support with:
+
+```bash
+pip install "agentreplay[otel]"
+```
+
+See `docs/observability.md` for architecture, configuration, exporter guides,
+OTLP setup, metrics, performance notes, and troubleshooting.
 
 ```bash
 agentreplay plugins
