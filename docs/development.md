@@ -35,8 +35,8 @@ configuration, and explicit Python API values override both.
 ## Maintainer Notes
 
 The current implementation includes the in-memory recorder engine, local SQLite
-storage, read-only replay engine, and read-only diff engine. Adapter
-implementations remain future work.
+storage, read-only replay engine, read-only diff engine, and the OpenAI Agents
+SDK adapter. Additional adapter implementations remain future work.
 Future phases should extend existing package boundaries instead of moving
 responsibilities across layers.
 

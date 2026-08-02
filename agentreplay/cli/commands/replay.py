@@ -10,7 +10,7 @@ from agentreplay.cli.commands._shared import add_storage_argument, write_line
 from agentreplay.exceptions import ReplayError
 from agentreplay.replay import ALLOWED_PLAYBACK_SPEEDS, ReplayEngine
 from agentreplay.replay.playback import TimelineEntry
-from agentreplay.storage import SQLiteStorage
+from agentreplay.storage import Pagination, SQLiteStorage
 
 
 def register(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
@@ -84,8 +84,19 @@ def _load_engine(args: argparse.Namespace) -> ReplayEngine:
         raise ReplayError(msg)
     storage = SQLiteStorage(args.db_path) if args.db_path else SQLiteStorage()
     engine = ReplayEngine(storage=storage, speed=args.speed)
-    engine.load(args.run_id)
+    engine.load(_resolve_run_id(storage, args.run_id))
     return engine
+
+
+def _resolve_run_id(storage: SQLiteStorage, run_id: str) -> str:
+    """Resolve the special ``latest`` replay id."""
+    if run_id != "latest":
+        return run_id
+    runs = storage.list_runs(pagination=Pagination(limit=1))
+    if not runs:
+        msg = "No recorded runs found."
+        raise ReplayError(msg)
+    return runs[0].run_id
 
 
 def _write_output(output: object, *, json_output: bool) -> None:

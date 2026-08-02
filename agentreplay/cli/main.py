@@ -5,7 +5,15 @@ from __future__ import annotations
 import argparse
 from collections.abc import Sequence
 
-from agentreplay.cli.commands import diff, export, record, replay, runs, version
+from agentreplay.cli.commands import (
+    diff,
+    export,
+    inspect,
+    record,
+    replay,
+    runs,
+    version,
+)
 from agentreplay.logging import setup_logging
 
 
@@ -33,6 +41,7 @@ def build_parser() -> argparse.ArgumentParser:
     record.register(subparsers)
     replay.register(subparsers)
     diff.register(subparsers)
+    inspect.register(subparsers)
     export.register(subparsers)
     return parser
 

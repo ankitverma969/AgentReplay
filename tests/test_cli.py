@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 from agentreplay.cli.main import build_parser, main
 
@@ -29,9 +31,12 @@ def test_version_command_prints_version(capsys: pytest.CaptureFixture[str]) -> N
     assert captured.out.startswith("agentreplay ")
 
 
-def test_placeholder_command_is_successful(capsys: pytest.CaptureFixture[str]) -> None:
-    exit_code = main(["list"])
+def test_list_command_is_successful(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    exit_code = main(["list", "--db-path", str(tmp_path / "empty.sqlite")])
 
     captured = capsys.readouterr()
     assert exit_code == 0
-    assert "command scaffold ready" in captured.out
+    assert "No recorded runs found." in captured.out
