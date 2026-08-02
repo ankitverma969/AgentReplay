@@ -37,3 +37,7 @@ The project follows Semantic Versioning.
   tree, event inspector, metadata and log panels, keyboard navigation, search,
   filters, statistics, selection export, current-event diffing, CLI command,
   documentation, and tests.
+- Added AI agent profiler with duration percentiles, token/cost/model/tool/memory
+  analysis, bottleneck detection, optimization recommendations, visualization
+  data, console/JSON/Markdown/HTML/CSV reports, plugin extension points, CLI
+  command, documentation, and tests.

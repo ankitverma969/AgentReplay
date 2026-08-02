@@ -18,6 +18,7 @@ from agentreplay.exceptions import (
     InstrumentationError,
     ObservabilityError,
     PluginError,
+    ProfilerError,
     RedactionError,
     ReplayError,
     SerializationError,
@@ -32,6 +33,7 @@ from agentreplay.observability import (
     TelemetryTrace,
 )
 from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
+from agentreplay.profiler import ProfilerEngine, ProfilingReport
 from agentreplay.recording import Recorder, record
 from agentreplay.replay import ReplayEngine
 from agentreplay.security import (
@@ -72,6 +74,9 @@ __all__ = [
     "PluginApp",
     "PluginError",
     "PluginManager",
+    "ProfilerEngine",
+    "ProfilerError",
+    "ProfilingReport",
     "RedactionError",
     "RedactionStrategy",
     "ReplayError",

@@ -23,6 +23,9 @@ PluginType = Literal[
     "telemetry_metric",
     "telemetry_span_processor",
     "telemetry_attribute_enricher",
+    "custom_profiler",
+    "custom_metric",
+    "custom_recommendation",
     "auth_provider",
 ]
 PluginStatus = Literal["discovered", "loaded", "disabled", "failed", "unloaded"]
@@ -55,6 +58,9 @@ PLUGIN_TYPES: tuple[PluginType, ...] = (
     "telemetry_metric",
     "telemetry_span_processor",
     "telemetry_attribute_enricher",
+    "custom_profiler",
+    "custom_metric",
+    "custom_recommendation",
     "auth_provider",
 )
 HOOK_NAMES: tuple[HookName, ...] = (

@@ -2,6 +2,9 @@
 
 from agentreplay.plugins.app import (
     CLICommandRegistrar,
+    CustomMetric,
+    CustomProfiler,
+    CustomRecommendation,
     EventProcessor,
     Exporter,
     MetadataCollector,
@@ -45,6 +48,9 @@ __all__ = [
     "CONFIG_VALUE_TYPES",
     "CLICommandRegistrar",
     "ConfigValueType",
+    "CustomMetric",
+    "CustomProfiler",
+    "CustomRecommendation",
     "DiscoveredPlugin",
     "EventProcessor",
     "Exporter",
