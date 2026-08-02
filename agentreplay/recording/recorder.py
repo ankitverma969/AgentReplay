@@ -9,7 +9,7 @@ from contextvars import Token
 from dataclasses import dataclass
 from threading import RLock
 from time import perf_counter
-from typing import Literal, ParamSpec, TypeVar, cast, overload
+from typing import TYPE_CHECKING, Literal, ParamSpec, TypeVar, cast, overload
 
 from agentreplay.container import Container, create_container
 from agentreplay.core.events import (
@@ -44,6 +44,9 @@ from agentreplay.recording.event_manager import EventManager
 from agentreplay.recording.metadata import MetadataCollector
 from agentreplay.recording.run_manager import RunFinishStatus, RunManager
 from agentreplay.recording.serializers import EventSerializer
+
+if TYPE_CHECKING:
+    from agentreplay.storage import StorageBackend
 
 P = ParamSpec("P")
 R = TypeVar("R")
@@ -684,6 +687,26 @@ class Recorder:
             run=self._run_manager.get_run(resolved_run_id),
             events=self._event_manager.events_for_run(resolved_run_id),
         )
+
+    def save_to_storage(
+        self,
+        storage: StorageBackend,
+        *,
+        run_id: str | None = None,
+    ) -> None:
+        """Persist an in-memory run and its events through a storage backend."""
+        trace = self.trace(run_id)
+        storage.save_run(trace.run)
+        storage.bulk_insert_events(trace.events)
+
+    @staticmethod
+    def load_from_storage(storage: StorageBackend, run_id: str) -> TraceSnapshot:
+        """Load a run and its events from a storage backend."""
+        run = storage.load_run(run_id)
+        if run is None:
+            msg = f"Unknown AgentReplay run id: {run_id}"
+            raise AgentReplayError(msg)
+        return TraceSnapshot(run=run, events=storage.load_events(run_id))
 
     def _resolve_active_run_id(self, run_id: str | None) -> str:
         """Resolve a run id for mutation and verify the run is still active."""

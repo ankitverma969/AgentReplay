@@ -13,6 +13,13 @@ from agentreplay.exceptions import (
     StorageError,
 )
 from agentreplay.recording import Recorder, record
+from agentreplay.storage import (
+    EventQuery,
+    Pagination,
+    RunQuery,
+    SQLiteStorage,
+    StorageBackend,
+)
 from agentreplay.version import __version__
 
 __all__ = [
@@ -21,12 +28,17 @@ __all__ = [
     "AgentReplayError",
     "ConfigurationError",
     "DiffError",
+    "EventQuery",
     "InstrumentationError",
+    "Pagination",
     "RedactionError",
     "ReplayError",
     "Recorder",
+    "RunQuery",
     "SerializationError",
+    "SQLiteStorage",
     "StorageError",
+    "StorageBackend",
     "configure",
     "create_container",
     "get_settings",
