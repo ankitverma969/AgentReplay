@@ -26,9 +26,10 @@ This repository currently contains the project foundation only:
 - exception hierarchy
 - dependency injection primitives
 - documented package boundaries
+- in-memory recorder engine
 
-Recorder, replay, diff, storage, and framework adapter behavior will be added in
-later phases.
+Replay, diff, storage, and framework adapter behavior will be added in later
+phases.
 
 ## Requirements
 
@@ -57,6 +58,47 @@ Use the CLI:
 agentreplay --help
 agentreplay version
 ```
+
+## In-Memory Recording
+
+Use `Recorder` as a context manager:
+
+```python
+from agentreplay import Recorder
+
+with Recorder(name="agent") as recorder:
+    recorder.system_prompt("Answer briefly.")
+    recorder.user_prompt("What is AgentReplay?")
+    recorder.llm_request(provider_name="example", model_name="demo-model")
+    recorder.llm_response(response="A local recorder.", latency_ms=12.0)
+    recorder.assistant_response("A local recorder.")
+
+trace = recorder.trace()
+```
+
+Use manual run control:
+
+```python
+from agentreplay import Recorder
+
+recorder = Recorder(auto_start=False)
+run_id = recorder.start_run(name="manual")
+recorder.custom_event("checkpoint", payload={"step": 1})
+recorder.end_run(run_id)
+```
+
+Use the decorator form:
+
+```python
+from agentreplay import record
+
+@record
+def my_agent() -> str:
+    return "done"
+```
+
+The recorder is local and in-memory in this phase. It does not require an LLM,
+API key, cloud service, or storage backend.
 
 ## Configuration
 

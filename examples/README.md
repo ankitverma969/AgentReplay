@@ -1,6 +1,8 @@
 # AgentReplay Examples
 
-Examples will be added as implementation phases introduce manual recording,
-storage, first-class framework adapters, replay, and diff behavior.
+Examples will expand as implementation phases introduce storage, first-class
+framework adapters, replay, and diff behavior.
 
-Phase 1 includes only the package foundation and CLI scaffold.
+Available examples:
+
+- `manual_recording.py`: records a simple agent-like execution in memory.

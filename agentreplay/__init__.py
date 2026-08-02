@@ -12,6 +12,7 @@ from agentreplay.exceptions import (
     SerializationError,
     StorageError,
 )
+from agentreplay.recording import Recorder, record
 from agentreplay.version import __version__
 
 __all__ = [
@@ -23,10 +24,12 @@ __all__ = [
     "InstrumentationError",
     "RedactionError",
     "ReplayError",
+    "Recorder",
     "SerializationError",
     "StorageError",
     "configure",
     "create_container",
     "get_settings",
+    "record",
     "reset_settings",
 ]

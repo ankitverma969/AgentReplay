@@ -1,3 +1,5 @@
-"""Hook boundary for future framework and manual recording integrations."""
+"""Decorator hooks for AgentReplay recording integrations."""
 
-__all__: list[str] = []
+from agentreplay.recording.recorder import record
+
+__all__ = ["record"]

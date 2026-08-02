@@ -5,6 +5,7 @@ from pathlib import Path
 
 from agentreplay.config import Settings, configure, get_settings, reset_settings
 from agentreplay.container import Container, create_container
+from agentreplay.recording import Recorder, record
 
 
 def load_config(
@@ -28,10 +29,12 @@ def load_config(
 
 __all__ = [
     "Container",
+    "Recorder",
     "Settings",
     "configure",
     "create_container",
     "get_settings",
     "load_config",
+    "record",
     "reset_settings",
 ]

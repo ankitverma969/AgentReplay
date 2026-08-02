@@ -1,3 +1,7 @@
-"""Core domain boundaries for AgentReplay traces and run metadata."""
+"""Core domain records for AgentReplay traces and run metadata."""
 
-__all__: list[str] = []
+from agentreplay.core.events import EventRecord, EventType
+from agentreplay.core.runs import RunRecord, RunStatus
+from agentreplay.core.traces import TraceSnapshot
+
+__all__ = ["EventRecord", "EventType", "RunRecord", "RunStatus", "TraceSnapshot"]
