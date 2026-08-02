@@ -9,3 +9,6 @@ The project follows Semantic Versioning.
 - Added Phase 1 project foundation.
 - Added packaging, CLI entrypoint, typed settings, logging, and documentation
   scaffold.
+- Added in-memory recorder engine.
+- Added SQLite storage engine with schema migrations, repositories, pagination,
+  filtering, sorting, and event streaming.

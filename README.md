@@ -15,7 +15,8 @@ and exported.
 
 ## Phase 1 Status
 
-This repository currently contains the project foundation only:
+This repository currently contains the project foundation, recorder engine, and
+SQLite storage engine:
 
 - Python package scaffold
 - CLI entrypoint
@@ -27,9 +28,9 @@ This repository currently contains the project foundation only:
 - dependency injection primitives
 - documented package boundaries
 - in-memory recorder engine
+- SQLite storage engine
 
-Replay, diff, storage, and framework adapter behavior will be added in later
-phases.
+Replay, diff, and framework adapter behavior will be added in later phases.
 
 ## Requirements
 
@@ -97,8 +98,29 @@ def my_agent() -> str:
     return "done"
 ```
 
-The recorder is local and in-memory in this phase. It does not require an LLM,
-API key, cloud service, or storage backend.
+The recorder is local and in-memory by default. It does not require an LLM, API
+key, cloud service, or storage backend.
+
+## SQLite Storage
+
+Persist recorded runs locally with the default SQLite backend:
+
+```python
+from agentreplay import Recorder, SQLiteStorage
+
+with Recorder(name="agent") as recorder:
+    recorder.user_prompt("Hello")
+    recorder.assistant_response("Hi")
+
+with SQLiteStorage(".agentreplay/agentreplay.sqlite") as storage:
+    recorder.save_to_storage(storage)
+    run_id = recorder.last_run_id()
+    if run_id is not None:
+        saved_run = storage.load_run(run_id)
+```
+
+The storage layer is abstracted behind `StorageBackend`, so future database
+backends can implement the same API.
 
 ## Configuration
 

@@ -34,10 +34,10 @@ configuration, and explicit Python API values override both.
 
 ## Maintainer Notes
 
-The current implementation includes the in-memory recorder engine. Replay, diff,
-adapter, and storage implementations remain future work. Future phases should
-extend existing package boundaries instead of moving responsibilities across
-layers.
+The current implementation includes the in-memory recorder engine and local
+SQLite storage. Replay, diff, and adapter implementations remain future work.
+Future phases should extend existing package boundaries instead of moving
+responsibilities across layers.
 
 ## Recorder Engine
 
@@ -53,6 +53,22 @@ The recorder supports:
 - automatic timestamps, UUIDs, metadata, duration, and exception events
 - thread-safe in-memory run and event managers
 
-The recorder does not persist data. Future storage work should consume immutable
-`RunRecord`, `EventRecord`, and `TraceSnapshot` objects without changing agent
-execution behavior.
+The recorder keeps active data in memory. Persistence is handled by storage
+backends that consume immutable `RunRecord`, `EventRecord`, and `TraceSnapshot`
+objects without changing agent execution behavior.
+
+## Storage Engine
+
+The default persistence backend is `SQLiteStorage`.
+
+The storage layer includes:
+
+- backend-neutral `StorageBackend` protocol
+- `RunQuery`, `EventQuery`, and `Pagination` query models
+- SQLite connection and transaction managers
+- run, event, and metadata repositories
+- schema migrations and version tracking
+- normalized run, event, metadata, run tag, and attachment tables
+
+Storage should remain a persistence concern only. Replay and diff behavior
+belong to their dedicated packages.

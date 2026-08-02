@@ -6,6 +6,13 @@ from pathlib import Path
 from agentreplay.config import Settings, configure, get_settings, reset_settings
 from agentreplay.container import Container, create_container
 from agentreplay.recording import Recorder, record
+from agentreplay.storage import (
+    EventQuery,
+    Pagination,
+    RunQuery,
+    SQLiteStorage,
+    StorageBackend,
+)
 
 
 def load_config(
@@ -29,8 +36,13 @@ def load_config(
 
 __all__ = [
     "Container",
+    "EventQuery",
+    "Pagination",
     "Recorder",
+    "RunQuery",
+    "SQLiteStorage",
     "Settings",
+    "StorageBackend",
     "configure",
     "create_container",
     "get_settings",
