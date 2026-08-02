@@ -31,6 +31,7 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - SQLite storage engine
 - read-only replay engine
 - read-only diff engine
+- interactive time travel debugger
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
@@ -100,6 +101,7 @@ Use the decorator form:
 ```python
 from agentreplay import record
 
+
 @record
 def my_agent() -> str:
     return "done"
@@ -156,6 +158,22 @@ agentreplay replay RUN_ID --db-path .agentreplay/agentreplay.sqlite
 agentreplay replay --file exported-run.json --timeline
 agentreplay replay RUN_ID --speed 2 --step
 ```
+
+## Interactive Debugger
+
+Open a full-screen terminal debugger for recorded runs. The debugger is offline
+and read-only: it loads traces from SQLite or exported JSON and never calls LLMs
+or executes tools.
+
+```bash
+agentreplay debug RUN_ID --db-path .agentreplay/agentreplay.sqlite
+agentreplay debug latest
+agentreplay debug --file exported-run.json
+```
+
+The debugger includes an execution tree, current event inspector, metadata
+panel, logs, search, filters, timeline navigation, statistics, event export, and
+current-event diffing with `--diff-run`.
 
 ## Diff
 

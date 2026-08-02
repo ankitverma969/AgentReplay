@@ -33,3 +33,7 @@ The project follows Semantic Versioning.
   mapping, console/JSON/file/OTLP exporters, sampling, correlation context,
   metrics aggregation, telemetry CLI commands, plugin observability
   registrations, documentation, and tests.
+- Added interactive time travel debugger with Textual-powered TUI, execution
+  tree, event inspector, metadata and log panels, keyboard navigation, search,
+  filters, statistics, selection export, current-event diffing, CLI command,
+  documentation, and tests.
