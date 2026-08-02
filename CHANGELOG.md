@@ -19,3 +19,6 @@ The project follows Semantic Versioning.
 - Added OpenAI Agents SDK adapter with tracing instrumentation, agent hooks,
   decorator/context/manual APIs, configuration, CLI latest helpers, docs, and
   tests.
+- Added LangGraph adapter with Runnable callback instrumentation, sync/async
+  graph execution tracing, streaming and checkpoint signals, DAG metadata,
+  read-only export helpers, CLI export support, docs, examples, and tests.
