@@ -29,6 +29,10 @@ class AdapterError(AgentReplayError):
     """Raised when a framework adapter fails."""
 
 
+class PluginError(AgentReplayError):
+    """Raised when plugin discovery, validation, or execution fails."""
+
+
 class InstrumentationError(AdapterError):
     """Raised when adapter instrumentation cannot be installed or removed."""
 
@@ -43,6 +47,7 @@ __all__ = [
     "ConfigurationError",
     "DiffError",
     "InstrumentationError",
+    "PluginError",
     "RedactionError",
     "ReplayError",
     "SerializationError",

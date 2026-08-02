@@ -22,3 +22,6 @@ The project follows Semantic Versioning.
 - Added LangGraph adapter with Runnable callback instrumentation, sync/async
   graph execution tracing, streaming and checkpoint signals, DAG metadata,
   read-only export helpers, CLI export support, docs, examples, and tests.
+- Added Plugin SDK with plugin metadata, validation, discovery, manager,
+  registry, loader, dependency resolution, compatibility checks, lifecycle
+  hooks, plugin configuration, CLI commands, docs, and tests.

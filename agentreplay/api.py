@@ -12,6 +12,7 @@ from agentreplay.adapters.openai_agents import (
 from agentreplay.config import Settings, configure, get_settings, reset_settings
 from agentreplay.container import Container, create_container
 from agentreplay.diff import DiffEngine
+from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
 from agentreplay.recording import Recorder, record
 from agentreplay.replay import ReplayEngine
 from agentreplay.storage import (
@@ -49,12 +50,15 @@ __all__ = [
     "EventQuery",
     "OpenAIAgentsConfig",
     "Pagination",
+    "PluginApp",
+    "PluginManager",
     "Recorder",
     "ReplayEngine",
     "RunQuery",
     "SQLiteStorage",
     "Settings",
     "StorageBackend",
+    "AgentReplayPlugin",
     "configure",
     "create_container",
     "get_settings",

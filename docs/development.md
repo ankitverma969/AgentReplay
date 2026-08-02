@@ -119,3 +119,15 @@ explicitly marked as an optional import smoke test.
 The adapter records by appending an AgentReplay callback to LangGraph Runnable
 config. It must not modify LangGraph source code, call LLMs, execute tools
 directly, or change graph state outside normal graph execution.
+
+## Plugin SDK
+
+The Plugin SDK lives in `agentreplay.plugins`.
+
+Plugin support should remain framework-agnostic and optional. Core code should
+not import third-party framework packages to discover plugins. External packages
+must register through entry points in `agentreplay.plugins`.
+
+Plugin manager behavior should fail open by default. A plugin crash must not
+break recording, replay, diff, storage, or CLI fundamentals unless a caller
+explicitly opts into fail-closed behavior.
