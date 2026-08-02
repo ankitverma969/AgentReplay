@@ -22,6 +22,7 @@ Implemented components:
 - SQLite storage engine
 - Read-only replay engine
 - Read-only diff engine
+- Interactive time travel debugger
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
@@ -64,6 +65,8 @@ Important packages:
   strategies, scan reports, trace sanitization, and report renderers.
 - `agentreplay.observability`: OpenTelemetry-compatible trace mapping,
   exporters, sampling, correlation context, and metrics aggregation.
+- `agentreplay.debugger`: offline Textual-powered debugger session, search,
+  filtering, statistics, event inspection, export rendering, and full-screen TUI.
 - `agentreplay.cli`: command-line interface and command handlers.
 - `agentreplay.core`: shared event, run, trace, clock, ID, and metadata models.
 - `agentreplay.testing`: helper utilities for tests and examples.
@@ -405,6 +408,7 @@ recorder.end_run(run_id)
 
 ```python
 from agentreplay import record
+
 
 @record
 def my_agent() -> str:

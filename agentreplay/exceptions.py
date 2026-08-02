@@ -45,10 +45,15 @@ class ObservabilityError(AgentReplayError):
     """Raised when telemetry mapping or exporting fails."""
 
 
+class DebuggerError(AgentReplayError):
+    """Raised when interactive debugger state or loading fails."""
+
+
 __all__ = [
     "AdapterError",
     "AgentReplayError",
     "ConfigurationError",
+    "DebuggerError",
     "DiffError",
     "InstrumentationError",
     "ObservabilityError",

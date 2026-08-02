@@ -6,6 +6,7 @@ import argparse
 from collections.abc import Sequence
 
 from agentreplay.cli.commands import (
+    debug,
     diff,
     export,
     inspect,
@@ -43,6 +44,7 @@ def build_parser() -> argparse.ArgumentParser:
     runs.register(subparsers)
     record.register(subparsers)
     replay.register(subparsers)
+    debug.register(subparsers)
     diff.register(subparsers)
     inspect.register(subparsers)
     export.register(subparsers)

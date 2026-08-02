@@ -21,7 +21,9 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Typing :: Typed",
 ]
-dependencies = []
+dependencies = [
+  "textual>=0.86,<2",
+]
 
 [project.optional-dependencies]
 dev = [
@@ -95,6 +97,7 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "agentreplay/logging.py" = ["A005"]
 "agentreplay/types.py" = ["A005"]
+"examples/**/*.py" = ["T201"]
 "tests/**/*.py" = ["D100", "D101", "D102", "D103"]
 
 [tool.ruff.lint.pydocstyle]

@@ -7,11 +7,13 @@ from agentreplay.adapters.openai_agents import (
     record_agent,
 )
 from agentreplay.api import configure, create_container, get_settings, reset_settings
+from agentreplay.debugger import DebuggerEngine, DebuggerSession
 from agentreplay.diff import DiffEngine
 from agentreplay.exceptions import (
     AdapterError,
     AgentReplayError,
     ConfigurationError,
+    DebuggerError,
     DiffError,
     InstrumentationError,
     ObservabilityError,
@@ -55,6 +57,9 @@ __all__ = [
     "AgentReplay",
     "AgentReplayError",
     "ConfigurationError",
+    "DebuggerEngine",
+    "DebuggerError",
+    "DebuggerSession",
     "DiffEngine",
     "DiffError",
     "EventQuery",
