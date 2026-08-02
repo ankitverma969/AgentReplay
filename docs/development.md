@@ -34,8 +34,9 @@ configuration, and explicit Python API values override both.
 
 ## Maintainer Notes
 
-The current implementation includes the in-memory recorder engine and local
-SQLite storage. Replay, diff, and adapter implementations remain future work.
+The current implementation includes the in-memory recorder engine, local SQLite
+storage, and read-only replay engine. Diff and adapter implementations remain
+future work.
 Future phases should extend existing package boundaries instead of moving
 responsibilities across layers.
 
@@ -72,3 +73,19 @@ The storage layer includes:
 
 Storage should remain a persistence concern only. Replay and diff behavior
 belong to their dedicated packages.
+
+## Replay Engine
+
+Replay is read-only. It must never call an LLM, execute tools, or mutate stored
+runs.
+
+The replay layer includes:
+
+- `ReplayEngine` for loading runs from storage, JSON strings, and JSON files
+- `ReplaySession` for a loaded trace and timeline
+- `ReplayController` for play, pause, resume, stop, seek, timestamp jumps, and
+  step navigation
+- `ReplayIterator` for timeline iteration
+- `EventTimeline` for nested and concurrent event visualization
+
+Playback speed is limited to `0.25x`, `0.5x`, `1x`, `2x`, and `4x`.
