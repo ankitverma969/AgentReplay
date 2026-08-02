@@ -16,6 +16,9 @@ PluginType = Literal[
     "cli_command",
     "event_processor",
     "metadata_collector",
+    "secret_detector",
+    "pii_detector",
+    "redaction_rule",
     "auth_provider",
 ]
 PluginStatus = Literal["discovered", "loaded", "disabled", "failed", "unloaded"]
@@ -41,6 +44,9 @@ PLUGIN_TYPES: tuple[PluginType, ...] = (
     "cli_command",
     "event_processor",
     "metadata_collector",
+    "secret_detector",
+    "pii_detector",
+    "redaction_rule",
     "auth_provider",
 )
 HOOK_NAMES: tuple[HookName, ...] = (

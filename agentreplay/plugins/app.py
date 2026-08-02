@@ -41,6 +41,13 @@ class MetadataCollector(Protocol):
         """Return metadata to attach to an execution."""
 
 
+class SecurityDetector(Protocol):
+    """Protocol implemented by plugin-provided security detectors."""
+
+    def scan(self, value: object) -> object:
+        """Scan a value and return detector-specific findings."""
+
+
 @dataclass(slots=True)
 class PluginApp:
     """Mutable registration facade passed to plugin ``register()`` methods."""
@@ -106,6 +113,18 @@ class PluginApp:
     ) -> None:
         """Register a metadata collector."""
         self._register("metadata_collector", name, collector)
+
+    def register_secret_detector(self, name: str, detector: SecurityDetector) -> None:
+        """Register a plugin-provided secret detector."""
+        self._register("secret_detector", name, detector)
+
+    def register_pii_detector(self, name: str, detector: SecurityDetector) -> None:
+        """Register a plugin-provided PII detector."""
+        self._register("pii_detector", name, detector)
+
+    def register_redaction_rule(self, name: str, rule: object) -> None:
+        """Register a plugin-provided redaction rule."""
+        self._register("redaction_rule", name, rule)
 
     def register_auth_provider(self, name: str, provider: object) -> None:
         """Register a future authentication provider."""
@@ -220,4 +239,5 @@ __all__ = [
     "MetadataCollector",
     "PluginApp",
     "PluginHookHandler",
+    "SecurityDetector",
 ]

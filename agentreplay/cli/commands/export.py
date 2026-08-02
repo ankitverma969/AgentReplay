@@ -8,8 +8,11 @@ from pathlib import Path
 
 from agentreplay.adapters.langgraph import export_trace
 from agentreplay.cli.commands._shared import add_storage_argument, write_line
+from agentreplay.config import get_settings
 from agentreplay.core.traces import TraceSnapshot
 from agentreplay.exceptions import AdapterError, StorageError
+from agentreplay.security import SecurityEngine
+from agentreplay.security.config import security_config_from_settings
 from agentreplay.storage import Pagination, SQLiteStorage
 
 
@@ -35,7 +38,8 @@ def handle(args: argparse.Namespace) -> int:
             write_line(f"agentreplay export: unknown run {run_id}")
             return 1
         trace = TraceSnapshot(run=run, events=storage.load_events(run_id))
-        output = _render(trace, args)
+        security = SecurityEngine(security_config_from_settings(get_settings()))
+        output = _render(security.sanitize_trace(trace), args)
         if args.output:
             Path(args.output).write_text(output, encoding="utf-8")
         else:

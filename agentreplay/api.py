@@ -15,6 +15,14 @@ from agentreplay.diff import DiffEngine
 from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
 from agentreplay.recording import Recorder, record
 from agentreplay.replay import ReplayEngine
+from agentreplay.security import (
+    RedactionStrategy,
+    SecurityConfig,
+    SecurityEngine,
+    SecurityFinding,
+    SecurityReport,
+    SecurityRule,
+)
 from agentreplay.storage import (
     EventQuery,
     Pagination,
@@ -53,10 +61,16 @@ __all__ = [
     "PluginApp",
     "PluginManager",
     "Recorder",
+    "RedactionStrategy",
     "ReplayEngine",
     "RunQuery",
     "SQLiteStorage",
     "Settings",
+    "SecurityConfig",
+    "SecurityEngine",
+    "SecurityFinding",
+    "SecurityReport",
+    "SecurityRule",
     "StorageBackend",
     "AgentReplayPlugin",
     "configure",
