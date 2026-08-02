@@ -15,8 +15,8 @@ and exported.
 
 ## Phase 1 Status
 
-This repository currently contains the project foundation, recorder engine, and
-SQLite storage engine:
+This repository currently contains the project foundation, recorder engine,
+SQLite storage engine, replay engine, and diff engine:
 
 - Python package scaffold
 - CLI entrypoint
@@ -29,8 +29,10 @@ SQLite storage engine:
 - documented package boundaries
 - in-memory recorder engine
 - SQLite storage engine
+- read-only replay engine
+- read-only diff engine
 
-Replay, diff, and framework adapter behavior will be added in later phases.
+Framework adapter behavior will be added in later phases.
 
 ## Requirements
 
@@ -148,6 +150,30 @@ Use the CLI:
 agentreplay replay RUN_ID --db-path .agentreplay/agentreplay.sqlite
 agentreplay replay --file exported-run.json --timeline
 agentreplay replay RUN_ID --speed 2 --step
+```
+
+## Diff
+
+Compare two recorded runs without executing the agent, tools, or LLM calls:
+
+```python
+from agentreplay import DiffEngine, SQLiteStorage
+
+storage = SQLiteStorage(".agentreplay/agentreplay.sqlite")
+diff = DiffEngine(storage=storage)
+
+result = diff.compare("baseline-run-id", "candidate-run-id")
+print(result.summary())
+```
+
+Use the CLI:
+
+```bash
+agentreplay diff RUN1 RUN2 --db-path .agentreplay/agentreplay.sqlite
+agentreplay diff RUN1 RUN2 --json
+agentreplay diff RUN1 RUN2 --markdown --verbose
+agentreplay diff RUN1 RUN2 --html
+agentreplay diff RUN1 RUN2 --summary
 ```
 
 ## Configuration

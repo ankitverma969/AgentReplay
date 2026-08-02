@@ -14,3 +14,5 @@ The project follows Semantic Versioning.
   filtering, sorting, and event streaming.
 - Added read-only replay engine with timeline rendering, JSON/file/database
   loading, playback controls, CLI support, and replay tests.
+- Added read-only diff engine with structured changes, event alignment, console,
+  JSON, Markdown, HTML, and summary reports.

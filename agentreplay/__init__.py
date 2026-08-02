@@ -1,6 +1,7 @@
 """Public package interface for AgentReplay."""
 
 from agentreplay.api import configure, create_container, get_settings, reset_settings
+from agentreplay.diff import DiffEngine
 from agentreplay.exceptions import (
     AdapterError,
     AgentReplayError,
@@ -28,6 +29,7 @@ __all__ = [
     "AdapterError",
     "AgentReplayError",
     "ConfigurationError",
+    "DiffEngine",
     "DiffError",
     "EventQuery",
     "InstrumentationError",
