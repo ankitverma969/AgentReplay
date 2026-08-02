@@ -23,6 +23,14 @@ from agentreplay.exceptions import (
 from agentreplay.plugins import AgentReplayPlugin, PluginApp, PluginManager
 from agentreplay.recording import Recorder, record
 from agentreplay.replay import ReplayEngine
+from agentreplay.security import (
+    RedactionStrategy,
+    SecurityConfig,
+    SecurityEngine,
+    SecurityFinding,
+    SecurityReport,
+    SecurityRule,
+)
 from agentreplay.storage import (
     EventQuery,
     Pagination,
@@ -48,10 +56,16 @@ __all__ = [
     "PluginError",
     "PluginManager",
     "RedactionError",
+    "RedactionStrategy",
     "ReplayError",
     "ReplayEngine",
     "Recorder",
     "RunQuery",
+    "SecurityConfig",
+    "SecurityEngine",
+    "SecurityFinding",
+    "SecurityReport",
+    "SecurityRule",
     "SerializationError",
     "SQLiteStorage",
     "StorageError",

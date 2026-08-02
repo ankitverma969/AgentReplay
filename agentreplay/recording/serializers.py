@@ -11,11 +11,23 @@ from pathlib import Path
 from types import MappingProxyType
 from uuid import UUID
 
+from agentreplay.config import get_settings
+from agentreplay.security.config import security_config_from_settings
+from agentreplay.security.engine import SecurityEngine
 from agentreplay.types import JSONValue, Metadata
 
 
 class EventSerializer:
     """Convert arbitrary Python values into JSON-compatible snapshots."""
+
+    def __init__(self, security_engine: SecurityEngine | None = None) -> None:
+        """Create a serializer with optional security sanitization."""
+        if security_engine is None:
+            settings = get_settings()
+            security_engine = SecurityEngine(
+                security_config_from_settings(settings),
+            )
+        self._security_engine = security_engine
 
     def serialize_payload(
         self, payload: Mapping[str, object] | None
@@ -37,7 +49,13 @@ class EventSerializer:
         """Serialize a string-keyed mapping into JSON-compatible values."""
         if value is None:
             return {}
-        return {str(key): self.serialize_value(item) for key, item in value.items()}
+        serialized = {
+            str(key): self.serialize_value(item) for key, item in value.items()
+        }
+        sanitized = self._security_engine.sanitize(serialized)
+        if isinstance(sanitized, Mapping):
+            return {str(key): item for key, item in sanitized.items()}
+        return {}
 
     def serialize_value(self, value: object) -> JSONValue:
         """Serialize a Python object into a JSON-compatible value."""

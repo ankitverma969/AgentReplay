@@ -5,7 +5,11 @@ from __future__ import annotations
 import html
 import json
 
+from agentreplay.config import get_settings
 from agentreplay.diff.models import DiffChange, DiffResult
+from agentreplay.security import SecurityEngine
+from agentreplay.security.config import security_config_from_settings
+from agentreplay.types import JSONValue
 
 
 def render_summary(result: DiffResult) -> str:
@@ -15,7 +19,8 @@ def render_summary(result: DiffResult) -> str:
 
 def render_json(result: DiffResult) -> str:
     """Render a machine-readable JSON report."""
-    return json.dumps(result.to_dict(), sort_keys=True)
+    security = SecurityEngine(security_config_from_settings(get_settings()))
+    return json.dumps(security.sanitize(result.to_dict()), sort_keys=True)
 
 
 def render_console(result: DiffResult, *, verbose: bool = False) -> str:
@@ -145,7 +150,20 @@ def _html_change(change: DiffChange, *, verbose: bool) -> str:
 
 def _value_text(value: object) -> str:
     """Return compact JSON text for a changed value."""
-    return json.dumps(value, sort_keys=True)
+    security = SecurityEngine(security_config_from_settings(get_settings()))
+    sanitized = security.sanitize(_json_safe(value))
+    return json.dumps(sanitized, sort_keys=True)
+
+
+def _json_safe(value: object) -> JSONValue:
+    """Convert arbitrary diff values into a JSON-compatible value."""
+    if value is None or isinstance(value, str | int | float | bool):
+        return value
+    if isinstance(value, list | tuple):
+        return [_json_safe(item) for item in value]
+    if isinstance(value, dict):
+        return {str(key): _json_safe(item) for key, item in value.items()}
+    return str(value)
 
 
 __all__ = [

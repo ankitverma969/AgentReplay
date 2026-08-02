@@ -34,6 +34,7 @@ SQLite storage engine, replay engine, diff engine, and first framework adapters:
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
+- Enterprise security and redaction engine
 
 Additional framework adapter behavior will be added in later phases.
 
@@ -258,6 +259,20 @@ class CrewAIPlugin(AgentReplayPlugin):
 
 External packages expose plugins through the `agentreplay.plugins` entry-point
 group and become available after installation.
+
+## Security
+
+AgentReplay redacts common secrets and PII before traces are stored, exported,
+replayed, diffed, or displayed:
+
+```bash
+agentreplay security scan RUN_ID --db-path .agentreplay/agentreplay.sqlite
+agentreplay security verify exported-run.json
+agentreplay security rules
+```
+
+See `docs/security.md` for configuration, examples, best practices, compliance
+notes, and plugin extension points.
 
 ```bash
 agentreplay plugins

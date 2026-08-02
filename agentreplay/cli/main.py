@@ -13,6 +13,7 @@ from agentreplay.cli.commands import (
     record,
     replay,
     runs,
+    security,
     version,
 )
 from agentreplay.logging import setup_logging
@@ -45,6 +46,7 @@ def build_parser() -> argparse.ArgumentParser:
     inspect.register(subparsers)
     export.register(subparsers)
     plugins.register(subparsers)
+    security.register(subparsers)
     return parser
 
 

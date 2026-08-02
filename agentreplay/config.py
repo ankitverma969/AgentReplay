@@ -22,9 +22,22 @@ from agentreplay.constants import (
     ENV_PLUGIN_CONFIG_PREFIX,
     ENV_PLUGINS_ENABLED,
     ENV_REDACTION,
+    ENV_SECURITY_ALLOWLIST,
+    ENV_SECURITY_DENYLIST,
+    ENV_SECURITY_ENABLED,
+    ENV_SECURITY_HASH_SALT,
+    ENV_SECURITY_IGNORE_RULES,
+    ENV_SECURITY_PII_ENABLED,
+    ENV_SECURITY_STRATEGY,
     ENV_STORAGE_BACKEND,
 )
 from agentreplay.exceptions import ConfigurationError
+from agentreplay.security.config import (
+    parse_per_field_strategies,
+    parse_security_rules,
+    parse_security_strategy,
+)
+from agentreplay.security.models import RedactionStrategy, SecurityRule
 from agentreplay.types import JSONValue, Metadata
 
 LogLevel = Literal["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", "NOTSET"]
@@ -53,6 +66,17 @@ class Settings:
     enabled: bool = False
     db_path: Path = DEFAULT_DB_PATH
     redaction_enabled: bool = True
+    security_enabled: bool = True
+    security_pii_enabled: bool = True
+    security_strategy: RedactionStrategy = "placeholder"
+    security_allowlist: tuple[str, ...] = ()
+    security_denylist: tuple[str, ...] = ()
+    security_ignore_rules: tuple[str, ...] = ()
+    security_custom_rules: tuple[SecurityRule, ...] = ()
+    security_per_field_strategies: Mapping[str, RedactionStrategy] = field(
+        default_factory=dict,
+    )
+    security_hash_salt: str = ""
     log_level: LogLevel = "WARNING"
     storage_backend: StorageBackendName = "sqlite"
     fail_mode: FailMode = "fail_open"
@@ -111,6 +135,15 @@ def configure(
     enabled: bool | None = None,
     db_path: str | Path | None = None,
     redaction_enabled: bool | None = None,
+    security_enabled: bool | None = None,
+    security_pii_enabled: bool | None = None,
+    security_strategy: str | None = None,
+    security_allowlist: tuple[str, ...] | None = None,
+    security_denylist: tuple[str, ...] | None = None,
+    security_ignore_rules: tuple[str, ...] | None = None,
+    security_custom_rules: tuple[SecurityRule, ...] | None = None,
+    security_per_field_strategies: Mapping[str, RedactionStrategy] | None = None,
+    security_hash_salt: str | None = None,
     log_level: str | None = None,
     storage_backend: str | None = None,
     fail_mode: str | None = None,
@@ -131,6 +164,19 @@ def configure(
     _put_if_not_none(overrides, "enabled", enabled)
     _put_if_not_none(overrides, "db_path", db_path)
     _put_if_not_none(overrides, "redaction_enabled", redaction_enabled)
+    _put_if_not_none(overrides, "security_enabled", security_enabled)
+    _put_if_not_none(overrides, "security_pii_enabled", security_pii_enabled)
+    _put_if_not_none(overrides, "security_strategy", security_strategy)
+    _put_if_not_none(overrides, "security_allowlist", security_allowlist)
+    _put_if_not_none(overrides, "security_denylist", security_denylist)
+    _put_if_not_none(overrides, "security_ignore_rules", security_ignore_rules)
+    _put_if_not_none(overrides, "security_custom_rules", security_custom_rules)
+    _put_if_not_none(
+        overrides,
+        "security_per_field_strategies",
+        security_per_field_strategies,
+    )
+    _put_if_not_none(overrides, "security_hash_salt", security_hash_salt)
     _put_if_not_none(overrides, "log_level", log_level)
     _put_if_not_none(overrides, "storage_backend", storage_backend)
     _put_if_not_none(overrides, "fail_mode", fail_mode)
@@ -222,6 +268,13 @@ def _environment_values(environ: Mapping[str, str]) -> dict[str, object]:
         ENV_ENABLED: "enabled",
         ENV_DB_PATH: "db_path",
         ENV_REDACTION: "redaction_enabled",
+        ENV_SECURITY_ENABLED: "security_enabled",
+        ENV_SECURITY_PII_ENABLED: "security_pii_enabled",
+        ENV_SECURITY_STRATEGY: "security_strategy",
+        ENV_SECURITY_ALLOWLIST: "security_allowlist",
+        ENV_SECURITY_DENYLIST: "security_denylist",
+        ENV_SECURITY_IGNORE_RULES: "security_ignore_rules",
+        ENV_SECURITY_HASH_SALT: "security_hash_salt",
         ENV_LOG_LEVEL: "log_level",
         ENV_STORAGE_BACKEND: "storage_backend",
         ENV_FAIL_MODE: "fail_mode",
@@ -259,6 +312,67 @@ def _apply_mapping(
             updated = replace(
                 updated,
                 redaction_enabled=_parse_bool(value, key=key, source=source),
+            )
+        elif key == "security_enabled":
+            updated = replace(
+                updated,
+                security_enabled=_parse_bool(value, key=key, source=source),
+            )
+        elif key == "security_pii_enabled":
+            updated = replace(
+                updated,
+                security_pii_enabled=_parse_bool(value, key=key, source=source),
+            )
+        elif key == "security_strategy":
+            updated = replace(
+                updated,
+                security_strategy=_parse_security_strategy(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "security_allowlist":
+            updated = replace(
+                updated,
+                security_allowlist=_parse_string_tuple(value, key=key, source=source),
+            )
+        elif key == "security_denylist":
+            updated = replace(
+                updated,
+                security_denylist=_parse_string_tuple(value, key=key, source=source),
+            )
+        elif key == "security_ignore_rules":
+            updated = replace(
+                updated,
+                security_ignore_rules=_parse_string_tuple(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "security_custom_rules":
+            updated = replace(
+                updated,
+                security_custom_rules=_parse_security_rules(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "security_per_field_strategies":
+            updated = replace(
+                updated,
+                security_per_field_strategies=_parse_per_field_strategies(
+                    value,
+                    key=key,
+                    source=source,
+                ),
+            )
+        elif key == "security_hash_salt":
+            updated = replace(
+                updated,
+                security_hash_salt=_parse_string(value, key=key, source=source),
             )
         elif key == "log_level":
             updated = replace(
@@ -309,6 +423,8 @@ def _apply_mapping(
             )
         elif key == "plugins":
             updated = _apply_plugins_table(updated, value, source=source)
+        elif key == "security":
+            updated = _apply_security_table(updated, value, source=source)
         elif key == "config_file":
             updated = replace(
                 updated,
@@ -342,6 +458,53 @@ def _parse_path(value: object, *, key: str, source: str) -> Path:
         return Path(value).expanduser()
     msg = f"Configuration key {key!r} from {source} must be a non-empty path."
     raise ConfigurationError(msg)
+
+
+def _parse_string(value: object, *, key: str, source: str) -> str:
+    """Parse a string configuration value."""
+    if isinstance(value, str):
+        return value
+    msg = f"Configuration key {key!r} from {source} must be a string."
+    raise ConfigurationError(msg)
+
+
+def _parse_security_strategy(
+    value: object,
+    *,
+    key: str,
+    source: str,
+) -> RedactionStrategy:
+    """Parse a security redaction strategy."""
+    try:
+        return parse_security_strategy(value, key=key, source=source)
+    except ValueError as exc:
+        raise ConfigurationError(str(exc)) from exc
+
+
+def _parse_security_rules(
+    value: object,
+    *,
+    key: str,
+    source: str,
+) -> tuple[SecurityRule, ...]:
+    """Parse custom security rule tables."""
+    try:
+        return parse_security_rules(value, key=key, source=source)
+    except ValueError as exc:
+        raise ConfigurationError(str(exc)) from exc
+
+
+def _parse_per_field_strategies(
+    value: object,
+    *,
+    key: str,
+    source: str,
+) -> Mapping[str, RedactionStrategy]:
+    """Parse security per-field strategy tables."""
+    try:
+        return parse_per_field_strategies(value, key=key, source=source)
+    except ValueError as exc:
+        raise ConfigurationError(str(exc)) from exc
 
 
 def _parse_optional_path(value: object, *, key: str, source: str) -> Path | None:
@@ -438,6 +601,37 @@ def _apply_plugins_table(
             msg = f"Plugin config table {key!r} from {source} must be a table."
             raise ConfigurationError(msg)
     return replace(updated, plugin_config=plugin_config)
+
+
+def _apply_security_table(
+    settings: Settings,
+    value: object,
+    *,
+    source: str,
+) -> Settings:
+    """Apply nested ``security`` configuration."""
+    if not isinstance(value, Mapping):
+        msg = f"Configuration key 'security' from {source} must be a table."
+        raise ConfigurationError(msg)
+    normalized: dict[str, object] = {}
+    aliases = {
+        "enabled": "security_enabled",
+        "pii_enabled": "security_pii_enabled",
+        "strategy": "security_strategy",
+        "allowlist": "security_allowlist",
+        "denylist": "security_denylist",
+        "ignore_rules": "security_ignore_rules",
+        "custom_rules": "security_custom_rules",
+        "per_field_strategies": "security_per_field_strategies",
+        "hash_salt": "security_hash_salt",
+    }
+    for raw_key, item in value.items():
+        key = str(raw_key)
+        if key not in aliases:
+            msg = f"Unknown AgentReplay security configuration key {key!r}."
+            raise ConfigurationError(msg)
+        normalized[aliases[key]] = item
+    return _apply_mapping(settings, normalized, source=source)
 
 
 def _parse_plugin_config(

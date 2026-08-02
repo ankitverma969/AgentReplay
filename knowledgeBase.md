@@ -25,6 +25,7 @@ Implemented components:
 - OpenAI Agents SDK adapter
 - LangGraph adapter
 - Plugin SDK
+- Enterprise security and redaction engine
 - Examples and developer documentation
 - CI workflow for linting, typing, and tests
 
@@ -58,6 +59,8 @@ Important packages:
   registry placeholders.
 - `agentreplay.plugins`: plugin base class, discovery, validation, lifecycle
   management, registry, dependency resolution, and plugin app surface.
+- `agentreplay.security`: compiled secret and PII detection rules, redaction
+  strategies, scan reports, trace sanitization, and report renderers.
 - `agentreplay.cli`: command-line interface and command handlers.
 - `agentreplay.core`: shared event, run, trace, clock, ID, and metadata models.
 - `agentreplay.testing`: helper utilities for tests and examples.
@@ -305,6 +308,25 @@ Plugin lifecycle hooks:
 - plugin unloaded
 
 See `docs/plugins.md`.
+
+### Security
+
+AgentReplay includes a dependency-free security engine that detects and redacts
+common secrets and PII before traces are stored, exported, replayed, diffed, or
+displayed. It supports placeholder, mask, partial-mask, SHA256 hash, remove, and
+custom redaction strategies.
+
+Use the CLI:
+
+```bash
+agentreplay security scan RUN_ID --db-path .agentreplay/agentreplay.sqlite
+agentreplay security verify exported-run.json
+agentreplay security report latest --markdown
+agentreplay security rules
+```
+
+See `docs/security.md` for configuration, examples, best practices, compliance
+notes, and plugin extension points.
 
 ## Installation
 
@@ -567,6 +589,7 @@ Primary documentation files:
 - `docs/openai_agents.md`: OpenAI Agents SDK adapter guide
 - `docs/langgraph.md`: LangGraph adapter guide
 - `docs/plugins.md`: Plugin SDK guide
+- `docs/security.md`: security and redaction guide
 - `CONTRIBUTING.md`: contribution process
 - `CHANGELOG.md`: release history
 

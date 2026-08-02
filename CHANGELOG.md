@@ -25,3 +25,7 @@ The project follows Semantic Versioning.
 - Added Plugin SDK with plugin metadata, validation, discovery, manager,
   registry, loader, dependency resolution, compatibility checks, lifecycle
   hooks, plugin configuration, CLI commands, docs, and tests.
+- Added enterprise security and redaction engine with secret and PII detection,
+  configurable redaction strategies, recorder/export/replay/diff sanitization,
+  CLI scan/verify/report/rules commands, plugin security registrations,
+  documentation, and tests.
