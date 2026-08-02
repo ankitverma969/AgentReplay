@@ -10,11 +10,18 @@ __pycache__/
 .coverage
 htmlcov/
 coverage.xml
+benchmark-report.json
+.benchmarks/
+.hypothesis/
+.python-version
 
 # Packaging
 build/
 dist/
 *.egg-info/
+
+# Documentation
+site/
 
 # Virtual environments
 .venv/

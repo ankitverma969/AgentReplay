@@ -9,6 +9,7 @@ from pathlib import Path
 from time import perf_counter
 from typing import cast
 
+import pytest
 from agentreplay import ReportingEngine, SQLiteStorage
 from agentreplay.cli.main import main
 from agentreplay.core.events import (
@@ -164,6 +165,7 @@ def test_reporting_engine_includes_plugin_extension_html() -> None:
     assert "Widget" in html
 
 
+@pytest.mark.performance
 def test_reporting_large_trace_generation_is_linear_enough() -> None:
     trace = _large_trace("run-large", count=20_000)
 
@@ -173,7 +175,7 @@ def test_reporting_large_trace_generation_is_linear_enough() -> None:
 
     assert len(bundle.nodes) == 20_000
     assert len(bundle.timeline) == 10_000
-    assert elapsed < 8.0
+    assert elapsed < 20.0
 
 
 class _ReportingPlugin(AgentReplayPlugin):

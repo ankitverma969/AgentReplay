@@ -1,0 +1,9 @@
+- title: "v0.1.0"
+  description: "Initial production-ready AgentReplay release."
+  state: open
+- title: "v0.2.0"
+  description: "Post-release stabilization and community-requested improvements."
+  state: open
+- title: "v1.0.0"
+  description: "Stable public API and long-term compatibility milestone."
+  state: open

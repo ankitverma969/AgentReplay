@@ -1030,7 +1030,7 @@ def _apply_observability_table(
         "batch_size": "observability_batch_size",
         "queue_size": "observability_queue_size",
         "graceful_shutdown_ms": "observability_graceful_shutdown_ms",
-        "auth_token": "observability_auth_token",
+        "auth_token": "observability_auth_token",  # nosec B105
     }
     for raw_key, item in value.items():
         key = str(raw_key)

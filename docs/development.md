@@ -15,6 +15,12 @@ make format
 make lint
 make typecheck
 make test
+make test-performance
+make coverage
+make security
+make dead-code
+make docs
+make benchmark
 make check
 ```
 
@@ -34,12 +40,11 @@ configuration, and explicit Python API values override both.
 
 ## Maintainer Notes
 
-The current implementation includes the in-memory recorder engine, local SQLite
-storage, read-only replay engine, read-only diff engine, the OpenAI Agents SDK
-adapter, and the LangGraph adapter. Additional adapter implementations remain
-future work.
-Future phases should extend existing package boundaries instead of moving
-responsibilities across layers.
+The current implementation includes the recorder, SQLite storage, replay, diff,
+debugger, profiler, reporting, performance, regression, security,
+observability, plugin, public SDK, OpenAI Agents SDK adapter, and LangGraph
+adapter modules. Future work should extend existing package boundaries instead
+of moving responsibilities across layers.
 
 ## Recorder Engine
 

@@ -31,7 +31,8 @@ Implemented components:
 - Enterprise security and redaction engine
 - Enterprise observability module with OpenTelemetry-compatible exports
 - Examples and developer documentation
-- CI workflow for linting, typing, and tests
+- Multi-platform CI, release automation, security scanning, package validation,
+  documentation website, and benchmark automation
 
 The library targets Python 3.11 and newer.
 
@@ -583,6 +584,24 @@ Run all checks:
 make check
 ```
 
+Run timing-sensitive pytest cases separately from deterministic CI gates:
+
+```bash
+make test-performance
+```
+
+Run the release-readiness suite:
+
+```bash
+make coverage
+make security
+make dead-code
+make docs
+make benchmark
+make build
+python -m twine check dist/*
+```
+
 Run individual checks:
 
 ```bash
@@ -590,6 +609,12 @@ python -m ruff check agentreplay tests
 python -m ruff format --check agentreplay tests
 python -m mypy
 python -m pytest
+```
+
+Documentation is built with MkDocs Material:
+
+```bash
+python -m mkdocs build --strict
 ```
 
 Build package artifacts:
@@ -613,6 +638,14 @@ The test suite currently covers:
 - OpenAI adapter behavior with mocks
 - LangGraph adapter behavior with mocks
 - plugin SDK behavior
+- public SDK behavior
+- security scanning and redaction behavior
+- observability mapping behavior
+- debugger session behavior
+- profiler behavior
+- reporting behavior
+- performance helpers
+- regression detection behavior
 
 The CI workflow runs on:
 
@@ -630,6 +663,8 @@ Primary documentation files:
 - `README.md`: project overview and quick starts
 - `docs/architecture.md`: architecture and package boundaries
 - `docs/development.md`: development workflow
+- `docs/release_engineering.md`: CI, packaging, release, security, and
+  benchmark gates
 - `docs/openai_agents.md`: OpenAI Agents SDK adapter guide
 - `docs/langgraph.md`: LangGraph adapter guide
 - `docs/plugins.md`: Plugin SDK guide
@@ -658,6 +693,31 @@ The following are important to know before production release:
 - Other framework adapter modules are placeholders for future integration work.
 - Optional SDK integration tests depend on optional third-party packages.
 - The project has not yet reached a stable `1.0` API contract.
+
+## Production Readiness
+
+Repository release readiness now includes:
+
+- GitHub Actions CI on Linux, macOS, and Windows
+- Python 3.11, 3.12, and 3.13 matrix testing
+- Ruff lint and format checks
+- MyPy strict typing
+- pytest and coverage reporting
+- pre-commit hook configuration
+- Bandit, pip-audit, AgentReplay secret scanning, and CodeQL
+- Vulture dead-code detection with a public API allowlist
+- MkDocs Material documentation site
+- benchmark automation for major modules
+- wheel and source distribution validation with Twine
+- semantic-release configuration
+- PyPI publishing workflow using trusted publishing
+- GitHub Release artifact workflow
+- issue templates, discussion templates, PR template, labels, milestones,
+  security policy, support policy, and code of conduct
+
+The default runtime dependency set is intentionally empty. Optional integrations
+and tooling are installed through extras such as `debugger`, `openai-agents`,
+`langgraph`, `otel`, `docs`, and `security`.
 
 ## Release Readiness Checklist
 

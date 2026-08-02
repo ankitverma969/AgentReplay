@@ -1,0 +1,30 @@
+name: Feature request
+description: Propose a narrowly scoped AgentReplay improvement.
+title: "feat: "
+labels: ["type: feature", "status: needs triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What developer or operator problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the desired behavior and API shape.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: This can be implemented without calling LLMs during analysis.
+        - label: This preserves framework-agnostic core boundaries.
